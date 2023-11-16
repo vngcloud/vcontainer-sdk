@@ -2,12 +2,13 @@ package utils
 
 import (
 	"fmt"
+
 	vconError "github.com/vngcloud/vcontainer-sdk/error"
 )
 
 // ********************************************** ErrUnexpectedStatusCode **********************************************
 
-func NewErrUnexpectedStatusCode(pURL, pMethod string, pExpected []int, pActual int, pInfo string) *ErrUnexpectedStatusCode {
+func NewErrUnexpectedStatusCode(pURL, pMethod string, pExpected []int, pActual int, pInfo string) vconError.IErrorBuilder {
 	err := new(ErrUnexpectedStatusCode)
 	err.URL = pURL
 	err.Method = pMethod

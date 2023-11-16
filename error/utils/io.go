@@ -8,7 +8,7 @@ import (
 
 // ************************************************** ErrMissingInput **************************************************
 
-func NewErrMissingInput(pArgument, pInfo string) *ErrMissingInput {
+func NewErrMissingInput(pArgument, pInfo string) vconError.IErrorBuilder {
 	err := new(ErrMissingInput)
 	err.Argument = pArgument
 	if pInfo != "" {
