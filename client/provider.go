@@ -2,37 +2,35 @@ package client
 
 import (
 	"context"
-	"github.com/vngcloud/vcontainer-sdk/error/utils"
+	"fmt"
+	"net/http"
+	"strings"
 	"sync"
 
 	"github.com/imroc/req/v3"
+
+	"github.com/vngcloud/vcontainer-sdk/error/utils"
 )
 
 type (
 	ProviderClient struct {
-		IdentityEndpoint  string
-		AccessToken       string
-		HTTPClient        *req.Client
-		ReauthFunc        func() error
-		ThrowAway         bool
-		Context           context.Context
-		RetryBackoffFunc  RetryBackoffFunc
-		MaxBackoffRetries uint
+		IdentityEndpoint string
+		AccessToken      string
+		HTTPClient       *req.Client
+		ReauthFunc       func() error
+		ThrowAway        bool
+		Context          context.Context
 
 		mut       *sync.RWMutex
 		reauthmut *reauthlock
 	}
 
-	RetryBackoffFunc func(context.Context, *utils.ErrUnexpectedStatusCode, error, uint) error
-
 	RequestOpts struct {
-		JSONBody         interface{}
-		JSONResponse     interface{}
-		OkCodes          []int
-		MoreHeaders      map[string]string
-		OmitHeaders      []string
-		ErrorContext     error
-		KeepResponseBody bool
+		JSONBody     interface{}
+		JSONResponse interface{}
+		OkCodes      []int
+		MoreHeaders  map[string]string
+		OmitHeaders  []string
 	}
 
 	reauthlock struct {
@@ -44,8 +42,150 @@ type (
 		done chan struct{}
 		err  error
 	}
-
-	requestState struct {
-		requestType string
-	}
 )
+
+func (s *ProviderClient) UseTokenLock() {
+	s.mut = new(sync.RWMutex)
+	s.reauthmut = new(reauthlock)
+}
+
+func (s *ProviderClient) UseHTTPClient() {
+	s.HTTPClient = req.NewClient().
+		SetCommonRetryCount(noRetries).
+		SetCommonRetryFixedInterval(retryInterval)
+}
+
+func (s *ProviderClient) SetThrowaway(v bool) {
+	if s.reauthmut != nil {
+		s.reauthmut.Lock()
+		defer s.reauthmut.Unlock()
+	}
+	s.ThrowAway = v
+}
+
+func (s *ProviderClient) IsThrowAway() bool {
+	if s.reauthmut != nil {
+		s.reauthmut.RLock()
+		defer s.reauthmut.RUnlock()
+	}
+
+	return s.ThrowAway
+}
+
+func (s *ProviderClient) Reauthenticate() error {
+	s.SetThrowaway(true)
+	defer s.SetThrowaway(false)
+
+	if s.ReauthFunc == nil {
+		return NewErrEmptyReauthFunction("")
+	}
+
+	s.reauthmut.Lock()
+	ongoing := s.reauthmut.ongoing
+	if ongoing == nil {
+		s.reauthmut.ongoing = newReauthFuture()
+	}
+	s.reauthmut.Unlock()
+
+	if ongoing != nil {
+		return ongoing.Get()
+	}
+
+	err := s.ReauthFunc()
+	s.reauthmut.Lock()
+	s.reauthmut.ongoing.Set(err)
+	s.reauthmut.ongoing = nil
+	s.reauthmut.Unlock()
+
+	return err
+}
+
+func (s *ProviderClient) SetAccessToken(pNewAccessToken string) {
+	if s.mut != nil {
+		s.mut.Lock()
+		defer s.mut.Unlock()
+	}
+
+	s.AccessToken = pNewAccessToken
+}
+
+func (s *ProviderClient) getDefaultHeaders() map[string]string {
+	authorization := "Bearer " + s.AccessToken
+	contentType := "application/json"
+	return map[string]string{
+		"Authorization": authorization,
+		"Content-Type":  contentType,
+	}
+}
+
+func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*req.Response, error) {
+	request := s.HTTPClient.R().SetContext(s.Context).SetHeaders(s.getDefaultHeaders()).SetHeaders(pOpts.MoreHeaders)
+
+	if pOpts.JSONBody != nil {
+		request.SetBodyJsonMarshal(pOpts.JSONBody)
+	}
+
+	if pOpts.JSONResponse != nil {
+		request.SetSuccessResult(pOpts.JSONResponse)
+	}
+
+	var resp *req.Response
+	var err error
+	switch strings.ToUpper(pMethod) {
+	case "POST":
+		resp, err = request.Post(pUrl)
+	case "GET":
+		resp, err = request.Get(pUrl)
+	case "DELETE":
+		resp, err = request.Delete(pUrl)
+	case "PUT":
+		resp, err = request.Put(pUrl)
+	}
+
+	if err != nil {
+		return resp, err
+	}
+
+	switch resp.StatusCode {
+	case http.StatusUnauthorized:
+		if s.ReauthFunc != nil {
+			err = s.Reauthenticate()
+			if err != nil {
+				return nil, NewErrReauthFailed(err.Error())
+			}
+
+			return s.doRequest(pMethod, pUrl, pOpts)
+		}
+	case http.StatusTooManyRequests:
+		return nil, utils.NewErrTooManyRequests(fmt.Sprintf("too many requests [%s %s] are made to server", pMethod, pUrl))
+	}
+
+	for _, sttc := range pOpts.OkCodes {
+		if sttc == resp.StatusCode {
+			return resp, nil
+		}
+	}
+
+	return resp, utils.NewErrUnknown(fmt.Sprintf("unexpected status code [%d] when accessing [%s %s], the response is [%v]", resp.StatusCode, pMethod, pUrl, resp))
+}
+
+func (s *ProviderClient) Request(pMethod, pUrl string, pOpts *RequestOpts) (*req.Response, error) {
+	return s.doRequest(pMethod, pUrl, pOpts)
+}
+
+func newReauthFuture() *reauthFuture {
+	return &reauthFuture{
+		done: make(chan struct{}),
+		err:  nil,
+	}
+}
+
+func (f *reauthFuture) Get() error {
+	<-f.done
+	return f.err
+}
+
+func (f *reauthFuture) Set(err error) {
+	f.err = err
+	close(f.done)
+}
