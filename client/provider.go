@@ -55,12 +55,12 @@ func (s *ProviderClient) UseHTTPClient() {
 		SetCommonRetryFixedInterval(retryInterval)
 }
 
-func (s *ProviderClient) SetThrowaway(v bool) {
+func (s *ProviderClient) SetThrowaway(pIsThrowAway bool) {
 	if s.reauthmut != nil {
 		s.reauthmut.Lock()
 		defer s.reauthmut.Unlock()
 	}
-	s.ThrowAway = v
+	s.ThrowAway = pIsThrowAway
 }
 
 func (s *ProviderClient) IsThrowAway() bool {
