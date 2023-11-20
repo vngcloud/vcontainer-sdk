@@ -81,6 +81,14 @@ func NewPortal(pEndpoint string, pProvider *client.ProviderClient) (*client.Serv
 	}, nil
 }
 
+func NewVBackUpGateWay(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
+	return &client.ServiceClient{
+		ProviderClient: pProvider,
+		Endpoint:       utils.NormalizeURL(pEndpoint),
+		Type:           "vbackupgateway",
+	}, nil
+}
+
 func NewLoadBalancer(pEndpoint string, pProvider *client.ProviderClient) (*client.ServiceClient, error) {
 	return &client.ServiceClient{
 		ProviderClient: pProvider,
