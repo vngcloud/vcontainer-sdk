@@ -1,6 +1,6 @@
 package snapshot
 
-func NewCreateOpts(pProjectID, pVolumeID, pDesc, pPermanently, pName string, pRetainedDay uint64) ICreateOptsBuilder {
+func NewCreateOpts(pProjectID, pVolumeID, pDesc string, pPermanently bool, pName string, pRetainedDay uint64) ICreateOptsBuilder {
 	opts := new(CreateOpts)
 	opts.ProjectID = pProjectID
 	opts.VolumeID = pVolumeID

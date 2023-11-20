@@ -6,10 +6,10 @@ import (
 )
 
 type CreateOpts struct {
-	Name        string
-	Description string
-	Permanently string
-	RetainedDay uint64
+	Name        string `json:"name"`
+	Description string `json:"description"`
+	Permanently bool   `json:"isPermanently"`
+	RetainedDay uint64 `json:"retainedDay"`
 
 	common.CommonOpts
 	bsCm.BlockStorageV2Common
