@@ -166,7 +166,7 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 		}
 	}
 
-	return resp, utils.NewErrUnknown(fmt.Sprintf("unexpected status code [%d] when accessing [%s %s], the response is [%v]", resp.StatusCode, pMethod, pUrl, resp))
+	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%v", resp)))
 }
 
 func (s *ProviderClient) Request(pMethod, pUrl string, pOpts *RequestOpts) (*req.Response, error) {

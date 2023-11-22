@@ -1,6 +1,7 @@
 package volume_attach
 
 import (
+	"fmt"
 	"github.com/vngcloud/vcontainer-sdk/client"
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/compute/v2/extensions/volume_attach/obj"
 )
@@ -15,6 +16,9 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*obj.VolumeAttac
 	})
 
 	if err != nil {
+		if err.Error() == "This volume is available" {
+			return nil, NewErrAttachNotFound(fmt.Sprintf("Volume %s is available", opts.GetVolumeID()))
+		}
 		return nil, err
 	}
 
