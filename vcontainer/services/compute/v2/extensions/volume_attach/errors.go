@@ -10,7 +10,7 @@ func NewErrAttachNotFound(pInfo string) vconError.IErrorBuilder {
 	return err
 }
 
-func IsErrEmptyRequestOption(pErr error) bool {
+func IsErrAttachNotFound(pErr error) bool {
 	_, ok := pErr.(*ErrAttachNotFound)
 	return ok
 }
