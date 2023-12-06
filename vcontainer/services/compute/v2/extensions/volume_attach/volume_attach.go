@@ -16,10 +16,12 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*obj.VolumeAttac
 	})
 
 	if err != nil {
-		if err.Error() == "This volume is available" {
-			return nil, NewErrAttachNotFound(fmt.Sprintf("Volume %s is available", opts.GetVolumeID()))
+		switch err.Error() {
+		case "This volume is available":
+			return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
+		default:
+			return nil, err
 		}
-		return nil, err
 	}
 
 	return response.ToVolumeAttachObject(), nil
@@ -35,7 +37,12 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*obj.VolumeAttac
 	})
 
 	if err != nil {
-		return nil, err
+		switch err.Error() {
+		case "This volume is available":
+			return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
+		default:
+			return nil, err
+		}
 	}
 
 	return response.ToVolumeAttachObject(), nil
