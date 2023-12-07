@@ -1,27 +1,32 @@
 package volume_attach
 
 import (
+	"encoding/json"
 	"fmt"
 	"github.com/vngcloud/vcontainer-sdk/client"
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/compute/v2/extensions/volume_attach/obj"
+	"strings"
 )
 
 // Create creates a volume attachment.
 func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*obj.VolumeAttach, error) {
 	response := NewCreateResponse()
-	_, err := sc.Put(createURL(sc, opts), &client.RequestOpts{
+	reqRes, err := sc.Put(createURL(sc, opts), &client.RequestOpts{
 		OkCodes:      []int{202},
 		JSONResponse: response,
 		JSONBody:     opts.ToRequestBody(),
 	})
 
 	if err != nil {
-		switch err.Error() {
-		case "This volume is available":
-			return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
-		default:
-			return nil, err
+		result := make(map[string]interface{})
+		err2 := json.Unmarshal(reqRes.Bytes(), &result)
+		if err2 == nil {
+			if message, _ := result["message"].(string); strings.TrimSpace(message) == "This volume is available" {
+				return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
+			}
 		}
+
+		return nil, err
 	}
 
 	return response.ToVolumeAttachObject(), nil
@@ -30,20 +35,22 @@ func Create(sc *client.ServiceClient, opts ICreateOptsBuilder) (*obj.VolumeAttac
 // Delete deletes a volume attachment.
 func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*obj.VolumeAttach, error) {
 	response := NewDeleteResponse()
-	_, err := sc.Put(deleteURL(sc, opts), &client.RequestOpts{
+	reqRes, err := sc.Put(deleteURL(sc, opts), &client.RequestOpts{
 		OkCodes:      []int{202},
 		JSONResponse: response,
 		JSONBody:     opts.ToRequestBody(),
 	})
 
 	if err != nil {
-		fmt.Printf("[CUONGDM3] the detach err: %v\n", err)
-		switch err.Error() {
-		case "This volume is available":
-			return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
-		default:
-			return nil, err
+		result := make(map[string]interface{})
+		err2 := json.Unmarshal(reqRes.Bytes(), &result)
+		if err2 == nil {
+			if message, _ := result["message"].(string); strings.TrimSpace(message) == "This volume is available" {
+				return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
+			}
 		}
+
+		return nil, err
 	}
 
 	return response.ToVolumeAttachObject(), nil

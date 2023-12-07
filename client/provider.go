@@ -166,7 +166,6 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 		}
 	}
 
-	fmt.Printf("[CUONGDM3] resp: %+v\n", resp.String())
 	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%+v", resp)))
 }
 
