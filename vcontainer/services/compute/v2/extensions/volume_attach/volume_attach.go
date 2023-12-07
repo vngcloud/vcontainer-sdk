@@ -37,6 +37,7 @@ func Delete(sc *client.ServiceClient, opts IDeleteOptsBuilder) (*obj.VolumeAttac
 	})
 
 	if err != nil {
+		fmt.Printf("[CUONGDM3] the detach err: %v\n", err)
 		switch err.Error() {
 		case "This volume is available":
 			return nil, NewErrAttachNotFound(fmt.Sprintf("volume %s is available", opts.GetVolumeID()))
