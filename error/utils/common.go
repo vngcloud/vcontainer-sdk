@@ -1,13 +1,16 @@
 package utils
 
-import vconError "github.com/vngcloud/vcontainer-sdk/error"
+import (
+	vconError "github.com/vngcloud/vcontainer-sdk/error"
+	"strings"
+)
 
 // **************************************************** ErrUnknown *****************************************************
 
 func NewErrUnknown(pInfo string) vconError.IErrorBuilder {
 	err := new(ErrUnknown)
 	if pInfo != "" {
-		err.Info = pInfo
+		err.Info = strings.TrimSpace(pInfo)
 	}
 	return err
 }
