@@ -166,7 +166,7 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 		}
 	}
 
-	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%v", resp)))
+	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%s", resp.Err.Error())))
 }
 
 func (s *ProviderClient) Request(pMethod, pUrl string, pOpts *RequestOpts) (*req.Response, error) {
