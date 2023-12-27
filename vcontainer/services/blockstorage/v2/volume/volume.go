@@ -22,6 +22,21 @@ func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) *pagination.Pager {
 		})
 }
 
+func ListAll(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) ([]*obj.Volume, error) {
+	resp := NewListAllResponse()
+	url := listAllURL(pSc, pOpts)
+	_, err := pSc.Get(url, &client.RequestOpts{
+		JSONResponse: resp,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return resp.ToListVolumeObjects(), nil
+}
+
 func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Volume, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()

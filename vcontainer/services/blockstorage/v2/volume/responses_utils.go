@@ -11,3 +11,7 @@ func NewGetResponse() IGetResponse {
 func NewListResponse() IListResponse {
 	return &ListResponse{}
 }
+
+func NewListAllResponse() IListAllResponse {
+	return &ListAllResponse{}
+}

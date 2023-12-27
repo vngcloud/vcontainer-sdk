@@ -22,3 +22,8 @@ type IListOptsBuilder interface {
 	ToListQueryWithParams(*map[string]interface{}) (string, error)
 	GetProjectID() string
 }
+
+type IListAllOptsBuilder interface {
+	ToListQuery() (string, error)
+	GetProjectID() string
+}

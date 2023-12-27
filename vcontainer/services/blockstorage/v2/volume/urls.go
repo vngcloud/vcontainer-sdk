@@ -8,6 +8,12 @@ func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
 		"volumes")
 }
 
+func listAllURL(pSc *client.ServiceClient, pOpts IListAllOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"volumes")
+}
+
 func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
 	return pSc.ServiceURL(
 		pOpts.GetProjectID(),

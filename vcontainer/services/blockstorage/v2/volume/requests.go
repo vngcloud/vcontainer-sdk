@@ -86,3 +86,20 @@ type DeleteOpts struct {
 	common.CommonOpts
 	bstCm.BlockStorageV2Common
 }
+
+// ************************************************* ListAllOptsBuilder ************************************************
+
+type ListAllOpts struct {
+	common.CommonOpts
+}
+
+func (s *ListAllOpts) ToListQuery() (string, error) {
+	parser, _ := lParser.GetParser()
+	url, err := parser.UrlMe(s)
+
+	if err != nil {
+		return "", err
+	}
+
+	return url.String(), err
+}

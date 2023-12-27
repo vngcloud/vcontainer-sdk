@@ -27,3 +27,9 @@ func NewListOpts(pProjectID, pName string, pPage, pSize int) IListOptsBuilder {
 	opts.ProjectID = pProjectID
 	return opts
 }
+
+func NewListAllOpts(pProjectID string) IListAllOptsBuilder {
+	opts := new(ListAllOpts)
+	opts.ProjectID = pProjectID
+	return opts
+}

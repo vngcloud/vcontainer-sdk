@@ -21,3 +21,9 @@ type IListResponse interface {
 	ToVolumeObject(pIdx int) *obj.Volume
 	NextPage() string
 }
+
+// ******************************************* Response of ListAllVolume API *******************************************
+
+type IListAllResponse interface {
+	ToListVolumeObjects() []*obj.Volume
+}
