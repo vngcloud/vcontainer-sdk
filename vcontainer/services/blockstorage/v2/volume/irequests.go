@@ -1,7 +1,5 @@
 package volume
 
-type IGetVolumeOptsBuilder interface{}
-
 type IGetOptsBuilder interface {
 	GetVolumeID() string
 	GetProjectID() string
