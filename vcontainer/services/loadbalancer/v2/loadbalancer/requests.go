@@ -1,6 +1,9 @@
 package loadbalancer
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/common"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/common"
+	lbCm "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2"
+)
 
 // ************************************************* CreateOptsBuilder *************************************************
 
@@ -30,4 +33,11 @@ type CreateOpts struct {
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+// ************************************************** GetOptsBuilder ***************************************************
+
+type GetOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
 }
