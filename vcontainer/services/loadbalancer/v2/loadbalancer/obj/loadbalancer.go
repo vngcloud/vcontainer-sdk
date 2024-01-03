@@ -1,5 +1,6 @@
 package obj
 
 type LoadBalancer struct {
-	UUID string
+	UUID   string
+	Status string
 }

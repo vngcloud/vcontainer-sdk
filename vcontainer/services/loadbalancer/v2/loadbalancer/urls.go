@@ -7,3 +7,10 @@ func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
 		pOpts.GetProjectID(),
 		"loadBalancers")
 }
+
+func getURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID())
+}

@@ -20,3 +20,17 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.LoadBalan
 
 	return response.ToLoadBalancerObject(), nil
 }
+
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.LoadBalancer, error) {
+	response := NewGetResponse()
+	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToLoadBalancerObject(), nil
+}
