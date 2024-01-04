@@ -34,3 +34,15 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.LoadBalancer, e
 
 	return response.ToLoadBalancerObject(), nil
 }
+
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes: []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

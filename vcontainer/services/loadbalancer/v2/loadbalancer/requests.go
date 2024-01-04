@@ -41,3 +41,10 @@ type GetOpts struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
+
+// ************************************************* DeleteOptsBuilder *************************************************
+
+type DeleteOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+}
