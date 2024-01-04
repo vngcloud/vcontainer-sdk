@@ -55,7 +55,8 @@ func (s *GetResponse) ToClusterObject() *obj.Cluster {
 	}
 
 	return &obj.Cluster{
-		ID:    s.Data.UUID,
-		VpcID: s.Data.NetworkID,
+		ID:       s.Data.UUID,
+		VpcID:    s.Data.NetworkID,
+		SubnetID: s.Data.SubnetID,
 	}
 }
