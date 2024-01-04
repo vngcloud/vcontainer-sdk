@@ -97,6 +97,14 @@ func NewLoadBalancer(pEndpoint string, pProvider *client.ProviderClient) (*clien
 	}, nil
 }
 
+func NewServiceClient(pEndpoint string, pProvider *client.ProviderClient, pType string) (*client.ServiceClient, error) {
+	return &client.ServiceClient{
+		ProviderClient: pProvider,
+		Endpoint:       utils.NormalizeURL(pEndpoint),
+		Type:           strings.ToLower(pType),
+	}, nil
+}
+
 func newIdentity(pProvider *client.ProviderClient) (*client.ServiceClient, error) {
 	endpoint := utils.NormalizeURL(pProvider.IdentityEndpoint)
 	isV2Endpoint := strings.HasSuffix(endpoint, "v2/")
