@@ -1,6 +1,7 @@
 package obj
 
 type Cluster struct {
-	ID    string
-	VpcID string
+	ID       string
+	VpcID    string
+	SubnetID string
 }
