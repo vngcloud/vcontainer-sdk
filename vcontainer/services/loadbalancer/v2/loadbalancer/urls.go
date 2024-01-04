@@ -14,3 +14,10 @@ func getURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
 		"loadBalancers",
 		pOpts.GetLoadBalancerID())
 }
+
+func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID())
+}

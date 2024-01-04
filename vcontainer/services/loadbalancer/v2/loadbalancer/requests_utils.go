@@ -11,3 +11,10 @@ func NewGetOpts(pProjectID, pLoadBalancerID string) IGetOptsBuilder {
 	opts.LoadBalancerID = pLoadBalancerID
 	return opts
 }
+
+func NewDeleteOpts(pProjectID, pLoadBalancerID string) IDeleteOptsBuilder {
+	opts := new(DeleteOpts)
+	opts.ProjectID = pProjectID
+	opts.LoadBalancerID = pLoadBalancerID
+	return opts
+}
