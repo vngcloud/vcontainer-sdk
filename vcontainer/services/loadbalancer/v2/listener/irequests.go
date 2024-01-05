@@ -5,3 +5,8 @@ type ICreateOptsBuilder interface {
 	GetProjectID() string
 	ToRequestBody() interface{}
 }
+
+type IGetOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+}

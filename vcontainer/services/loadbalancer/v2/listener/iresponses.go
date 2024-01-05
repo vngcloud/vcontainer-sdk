@@ -5,3 +5,8 @@ import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/l
 type ICreateResponse interface {
 	ToListenerObject() *obj.Listener
 }
+
+type IGetResponse interface {
+	ToListListenerObject() []*obj.Listener
+	ToListenerObjectAt(i int) *obj.Listener
+}
