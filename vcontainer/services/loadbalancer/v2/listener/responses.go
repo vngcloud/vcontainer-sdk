@@ -49,7 +49,7 @@ func (s *GetBasedLoadBalancerResponse) ToListenerObjectAt(i int) *obj.Listener {
 	return &obj.Listener{
 		ID:           item.UUID,
 		Status:       item.DisplayStatus,
-		Protocal:     item.Protocol,
-		ProtocalPort: item.ProtocolPort,
+		Protocol:     item.Protocol,
+		ProtocolPort: item.ProtocolPort,
 	}
 }
