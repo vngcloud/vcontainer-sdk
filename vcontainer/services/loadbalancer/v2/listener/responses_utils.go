@@ -4,6 +4,6 @@ func NewCreateResponse() ICreateResponse {
 	return &CreateResponse{}
 }
 
-func NewGetResponse() IGetResponse {
-	return &GetResponse{}
+func NewGetBasedLoadBalancerResponse() IGetBasedLoadBalancerResponse {
+	return &GetBasedLoadBalancerResponse{}
 }

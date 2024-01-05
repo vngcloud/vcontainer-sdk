@@ -10,7 +10,7 @@ func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
 		"listeners")
 }
 
-func getBasedLoadBalancerURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
+func getBasedLoadBalancerURL(pSc *client.ServiceClient, pOpts IGetBasedLoadBalancerOptsBuilder) string {
 	return pSc.ServiceURL(
 		pOpts.GetProjectID(),
 		"loadBalancers",

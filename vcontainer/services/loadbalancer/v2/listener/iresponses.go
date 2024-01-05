@@ -6,7 +6,7 @@ type ICreateResponse interface {
 	ToListenerObject() *obj.Listener
 }
 
-type IGetResponse interface {
+type IGetBasedLoadBalancerResponse interface {
 	ToListListenerObject() []*obj.Listener
 	ToListenerObjectAt(i int) *obj.Listener
 }

@@ -6,8 +6,8 @@ func NewCreateOpts(pProjectID, pLbID string, pOpts *CreateOpts) ICreateOptsBuild
 	return pOpts
 }
 
-func NewGetOpts(pProjectID, pLbID string) IGetOptsBuilder {
-	opts := new(GetOpts)
+func NewGetBasedLoadBalancerOpts(pProjectID, pLbID string) IGetBasedLoadBalancerOptsBuilder {
+	opts := new(GetBasedLoadBalancerOpts)
 	opts.ProjectID = pProjectID
 	opts.LoadBalancerID = pLbID
 	return opts

@@ -11,7 +11,7 @@ func (s *CreateResponse) ToListenerObject() *obj.Listener {
 
 // **************************************************** GetResponse ****************************************************
 
-type GetResponse struct {
+type GetBasedLoadBalancerResponse struct {
 	Data []struct {
 		UUID                            string   `json:"uuid"`
 		Name                            string   `json:"name"`
@@ -36,7 +36,7 @@ type GetResponse struct {
 	} `json:"data"`
 }
 
-func (s *GetResponse) ToListListenerObject() []*obj.Listener {
+func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*obj.Listener {
 	listeners := make([]*obj.Listener, 0, len(s.Data))
 	for i := range s.Data {
 		listeners = append(listeners, s.ToListenerObjectAt(i))
@@ -44,7 +44,7 @@ func (s *GetResponse) ToListListenerObject() []*obj.Listener {
 	return listeners
 }
 
-func (s *GetResponse) ToListenerObjectAt(i int) *obj.Listener {
+func (s *GetBasedLoadBalancerResponse) ToListenerObjectAt(i int) *obj.Listener {
 	item := s.Data[i]
 	return &obj.Listener{
 		ID:           item.UUID,

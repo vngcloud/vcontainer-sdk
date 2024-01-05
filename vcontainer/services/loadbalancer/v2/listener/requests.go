@@ -38,7 +38,7 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 
 // ****************************************************** GetOpts ******************************************************
 
-type GetOpts struct {
+type GetBasedLoadBalancerOpts struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
