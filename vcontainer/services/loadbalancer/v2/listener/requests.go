@@ -5,6 +5,8 @@ import (
 	lbCm "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2"
 )
 
+// **************************************************** CreateOpts *****************************************************
+
 type (
 	CreateOptsListenerProtocolOpt string
 )
@@ -32,4 +34,11 @@ type CreateOpts struct {
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
+}
+
+// ****************************************************** GetOpts ******************************************************
+
+type GetBasedLoadBalancerOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
 }

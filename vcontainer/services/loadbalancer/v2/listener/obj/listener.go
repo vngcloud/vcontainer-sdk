@@ -1,6 +1,8 @@
 package obj
 
 type Listener struct {
-	UUID   string
-	Status string
+	ID           string
+	Status       string
+	Protocal     string
+	ProtocalPort int
 }
