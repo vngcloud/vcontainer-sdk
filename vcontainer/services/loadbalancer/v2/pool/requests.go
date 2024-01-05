@@ -21,14 +21,35 @@ const (
 	CreateOptsProtocolOptProxy CreateOptsProtocolOpt = "PROXY"
 )
 
-type CreateOpts struct {
-	Algorithm    CreateOptsAlgorithmOpt `json:"algorithm"`
-	PoolName     string                 `json:"poolName"`
-	PoolProtocol CreateOptsProtocolOpt  `json:"poolProtocol"`
+type (
+	CreateOpts struct {
+		Algorithm     CreateOptsAlgorithmOpt `json:"algorithm"`
+		PoolName      string                 `json:"poolName"`
+		PoolProtocol  CreateOptsProtocolOpt  `json:"poolProtocol"`
+		HealthMonitor HealthMonitor          `json:"healthMonitor"`
+		Members       []Member               `json:"members"`
 
-	common.CommonOpts
-	lbCm.LoadBalancerV2Common
-}
+		common.CommonOpts
+		lbCm.LoadBalancerV2Common
+	}
+
+	Member struct {
+		Backup      bool   `json:"backup"`
+		IpAddress   string `json:"ipAddress"`
+		MonitorPort int    `json:"monitorPort"`
+		Name        string `json:"name"`
+		Port        int    `json:"port"`
+		Weight      int    `json:"weight"`
+	}
+
+	HealthMonitor struct {
+		HealthCheckProtocol string `json:"healthCheckProtocol"`
+		HealthyThreshold    int    `json:"healthyThreshold"`
+		Interval            int    `json:"interval"`
+		Timeout             int    `json:"timeout"`
+		UnhealthyThreshold  int    `json:"unhealthyThreshold"`
+	}
+)
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	return s
