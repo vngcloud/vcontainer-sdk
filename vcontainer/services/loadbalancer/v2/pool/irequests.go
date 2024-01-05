@@ -5,3 +5,8 @@ type ICreateOptsBuilder interface {
 	GetProjectID() string
 	ToRequestBody() interface{}
 }
+
+type IListPoolsBasedLoadBalancerOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+}

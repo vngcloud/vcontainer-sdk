@@ -39,7 +39,7 @@ type GetBasedLoadBalancerResponse struct {
 func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*obj.Listener {
 	listeners := make([]*obj.Listener, 0, len(s.Data))
 	for i := range s.Data {
-		listeners = append(listeners, s.ToListenerObjectAt(i))
+		listeners[i] = s.ToListenerObjectAt(i)
 	}
 	return listeners
 }
