@@ -51,5 +51,6 @@ func (s *GetBasedLoadBalancerResponse) ToListenerObjectAt(i int) *obj.Listener {
 		Status:       item.DisplayStatus,
 		Protocol:     item.Protocol,
 		ProtocolPort: item.ProtocolPort,
+		Name:         item.Name,
 	}
 }
