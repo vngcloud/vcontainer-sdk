@@ -14,3 +14,8 @@ type IDeleteOptsBuilder interface {
 	GetLoadBalancerID() string
 	GetProjectID() string
 }
+
+type IListBySubnetIDOptsBuilder interface {
+	GetSubnetID() string
+	GetProjectID() string
+}

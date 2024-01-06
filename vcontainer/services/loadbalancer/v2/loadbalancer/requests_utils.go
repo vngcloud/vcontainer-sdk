@@ -18,3 +18,10 @@ func NewDeleteOpts(pProjectID, pLoadBalancerID string) IDeleteOptsBuilder {
 	opts.LoadBalancerID = pLoadBalancerID
 	return opts
 }
+
+func NewGetBySubnetIDOpts(pProjectID, pSubnetID string) IListBySubnetIDOptsBuilder {
+	opts := new(ListBySubnetIDOptsBuilder)
+	opts.ProjectID = pProjectID
+	opts.SubnetID = pSubnetID
+	return opts
+}

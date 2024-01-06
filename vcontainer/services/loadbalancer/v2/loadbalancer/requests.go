@@ -48,3 +48,14 @@ type DeleteOpts struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
+
+// ********************************************* GetBySubnetIDOptsBuilder **********************************************
+
+type ListBySubnetIDOptsBuilder struct {
+	SubnetID string
+	common.CommonOpts
+}
+
+func (s *ListBySubnetIDOptsBuilder) GetSubnetID() string {
+	return s.SubnetID
+}
