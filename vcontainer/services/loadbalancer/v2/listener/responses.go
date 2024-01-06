@@ -3,10 +3,17 @@ package listener
 import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/listener/obj"
 
 type CreateResponse struct {
+	UUID string `json:"uuid"`
 }
 
 func (s *CreateResponse) ToListenerObject() *obj.Listener {
-	return nil
+	if s == nil {
+		return nil
+	}
+
+	return &obj.Listener{
+		ID: s.UUID,
+	}
 }
 
 // **************************************************** GetResponse ****************************************************
