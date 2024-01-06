@@ -21,3 +21,11 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		"loadBalancers",
 		pOpts.GetLoadBalancerID())
 }
+
+func listBySubnetIDURL(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		"subnet",
+		pOpts.GetSubnetID())
+}
