@@ -10,3 +10,9 @@ type IGetBasedLoadBalancerOptsBuilder interface {
 	GetLoadBalancerID() string
 	GetProjectID() string
 }
+
+type IDeleteOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+	GetListenerID() string
+}
