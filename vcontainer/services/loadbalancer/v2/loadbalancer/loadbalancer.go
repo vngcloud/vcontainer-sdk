@@ -47,8 +47,8 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return nil
 }
 
-func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) (*obj.LoadBalancer, error) {
-	response := NewGetResponse()
+func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*obj.LoadBalancer, error) {
+	response := NewListBySubnetIDResponse()
 	_, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
 		OkCodes:      []int{200},
@@ -58,5 +58,5 @@ func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder)
 		return nil, err
 	}
 
-	return response.ToLoadBalancerObject(), nil
+	return response.ToListLoadBalancerObjects(), nil
 }
