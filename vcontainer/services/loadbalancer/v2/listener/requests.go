@@ -42,3 +42,11 @@ type GetBasedLoadBalancerOpts struct {
 	common.CommonOpts
 	lbCm.LoadBalancerV2Common
 }
+
+// ***************************************************** DeleteOpts ****************************************************
+
+type DeleteOpts struct {
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.ListenerV2Common
+}

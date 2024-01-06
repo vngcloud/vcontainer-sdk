@@ -17,3 +17,12 @@ func getBasedLoadBalancerURL(pSc *client.ServiceClient, pOpts IGetBasedLoadBalan
 		pOpts.GetLoadBalancerID(),
 		"listeners")
 }
+
+func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"listeners",
+		pOpts.GetListenerID())
+}
