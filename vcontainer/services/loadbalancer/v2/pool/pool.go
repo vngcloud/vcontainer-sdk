@@ -34,3 +34,15 @@ func ListPoolsBasedLoadBalancer(pSc *client.ServiceClient, pOpts IListPoolsBased
 
 	return response.ToListPoolObjects(), nil
 }
+
+func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
+	_, err := pSc.Delete(deleteURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes: []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}

@@ -7,3 +7,11 @@ type LoadBalancerV2Common struct {
 func (s *LoadBalancerV2Common) GetLoadBalancerID() string {
 	return s.LoadBalancerID
 }
+
+type PoolV2Common struct {
+	PoolID string
+}
+
+func (s *PoolV2Common) GetPoolID() string {
+	return s.PoolID
+}

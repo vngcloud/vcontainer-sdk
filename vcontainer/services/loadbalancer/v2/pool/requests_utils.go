@@ -12,3 +12,11 @@ func NewListPoolsBasedLoadBalancerOpts(pProjectID, pLbID string) IListPoolsBased
 	opts.LoadBalancerID = pLbID
 	return opts
 }
+
+func NewDeleteOpts(pProjectID, pLbID, pPoolID string) IDeleteOptsBuilder {
+	opts := new(DeleteOpts)
+	opts.ProjectID = pProjectID
+	opts.LoadBalancerID = pLbID
+	opts.PoolID = pPoolID
+	return opts
+}
