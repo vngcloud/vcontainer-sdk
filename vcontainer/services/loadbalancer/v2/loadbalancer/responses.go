@@ -52,7 +52,8 @@ func (s *GetResponse) ToLoadBalancerObject() *obj.LoadBalancer {
 	}
 
 	return &obj.LoadBalancer{
-		UUID:   s.Data.UUID,
-		Status: s.Data.DisplayStatus,
+		UUID:    s.Data.UUID,
+		Status:  s.Data.DisplayStatus,
+		Address: s.Data.Address,
 	}
 }
