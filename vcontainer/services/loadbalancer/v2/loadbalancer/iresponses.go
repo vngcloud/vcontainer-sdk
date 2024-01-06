@@ -13,3 +13,10 @@ type ICreateResponse interface {
 type IGetResponse interface {
 	ToLoadBalancerObject() *obj.LoadBalancer
 }
+
+// ****************************************** Response of ListBySubnetID API *******************************************
+
+type IListBySubnetIDResponse interface {
+	ToListLoadBalancerObjects() []*obj.LoadBalancer
+	ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
+}
