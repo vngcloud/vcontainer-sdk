@@ -59,3 +59,9 @@ type ListBySubnetIDOptsBuilder struct {
 func (s *ListBySubnetIDOptsBuilder) GetSubnetID() string {
 	return s.SubnetID
 }
+
+// ************************************************** ListOptsBuilder **************************************************
+
+type ListOptsBuilder struct {
+	common.CommonOpts
+}

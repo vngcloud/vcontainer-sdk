@@ -11,3 +11,7 @@ func NewGetResponse() IGetResponse {
 func NewListBySubnetIDResponse() IListBySubnetIDResponse {
 	return &ListBySubnetIDResponse{}
 }
+
+func NewListResponse() IListResponse {
+	return &ListResponse{}
+}

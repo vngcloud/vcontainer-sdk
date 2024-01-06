@@ -20,3 +20,10 @@ type IListBySubnetIDResponse interface {
 	ToListLoadBalancerObjects() []*obj.LoadBalancer
 	ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
 }
+
+// *********************************************** Response if List API ************************************************
+
+type IListResponse interface {
+	ToListLoadBalancerObjects() []*obj.LoadBalancer
+	ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
+}

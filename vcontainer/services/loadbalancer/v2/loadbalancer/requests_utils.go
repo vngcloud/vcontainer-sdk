@@ -25,3 +25,9 @@ func NewListBySubnetIDOpts(pProjectID, pSubnetID string) IListBySubnetIDOptsBuil
 	opts.SubnetID = pSubnetID
 	return opts
 }
+
+func NewListOpts(pProjectID string) IListOptsBuilder {
+	opts := new(ListOptsBuilder)
+	opts.ProjectID = pProjectID
+	return opts
+}
