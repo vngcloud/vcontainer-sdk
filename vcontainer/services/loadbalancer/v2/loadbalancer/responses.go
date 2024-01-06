@@ -90,5 +90,6 @@ func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
 		UUID:    s.Data[i].UUID,
 		Status:  s.Data[i].DisplayStatus,
 		Address: s.Data[i].Address,
+		Name:    s.Data[i].Name,
 	}
 }

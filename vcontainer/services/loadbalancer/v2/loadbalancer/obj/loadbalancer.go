@@ -4,4 +4,5 @@ type LoadBalancer struct {
 	UUID    string
 	Status  string
 	Address string
+	Name    string
 }
