@@ -10,3 +10,9 @@ type IListPoolsBasedLoadBalancerOptsBuilder interface {
 	GetLoadBalancerID() string
 	GetProjectID() string
 }
+
+type IDeleteOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+	GetPoolID() string
+}
