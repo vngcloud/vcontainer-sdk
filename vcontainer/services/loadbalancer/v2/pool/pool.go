@@ -20,3 +20,17 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Pool, err
 
 	return response.ToPoolObject(), nil
 }
+
+func ListPoolsBasedLoadBalancer(pSc *client.ServiceClient, pOpts IListPoolsBasedLoadBalancerOptsBuilder) ([]*obj.Pool, error) {
+	response := NewListPoolsBasedLoadBalancerResponse()
+	_, err := pSc.Get(listPoolsBasedLoadBalancerURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListPoolObjects(), nil
+}
