@@ -1,6 +1,9 @@
 package loadbalancer
 
-import "github.com/vngcloud/vcontainer-sdk/client"
+import (
+	"fmt"
+	"github.com/vngcloud/vcontainer-sdk/client"
+)
 
 func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
 	return pSc.ServiceURL(
@@ -28,4 +31,11 @@ func listBySubnetIDURL(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuild
 		"loadBalancers",
 		"subnet",
 		pOpts.GetSubnetID())
+}
+
+func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
+	size := int(^uint(0) >> 1)
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		fmt.Sprintf("loadBalancers?name=&page=1&size=%d", size))
 }

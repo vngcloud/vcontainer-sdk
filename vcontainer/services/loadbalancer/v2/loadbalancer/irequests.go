@@ -19,3 +19,7 @@ type IListBySubnetIDOptsBuilder interface {
 	GetSubnetID() string
 	GetProjectID() string
 }
+
+type IListOptsBuilder interface {
+	GetProjectID() string
+}

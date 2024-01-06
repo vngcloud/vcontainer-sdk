@@ -93,3 +93,39 @@ func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
 		Name:    s.Data[i].Name,
 	}
 }
+
+// *********************************************** Response of List API ************************************************
+
+type ListResponse struct {
+	ListData  []ResponseData `json:"listData"`
+	Page      int            `json:"page"`
+	PageSize  int            `json:"pageSize"`
+	TotalPage int            `json:"totalPage"`
+	TotalItem int            `json:"totalItem"`
+}
+
+func (s *ListResponse) ToListLoadBalancerObjects() []*obj.LoadBalancer {
+	if s == nil {
+		return nil
+	}
+
+	result := make([]*obj.LoadBalancer, len(s.ListData))
+	for i := range s.ListData {
+		result[i] = s.ToLoadBalancerObjectAt(i)
+	}
+
+	return result
+}
+
+func (s *ListResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer {
+	if s == nil {
+		return nil
+	}
+
+	return &obj.LoadBalancer{
+		UUID:    s.ListData[i].UUID,
+		Status:  s.ListData[i].DisplayStatus,
+		Address: s.ListData[i].Address,
+		Name:    s.ListData[i].Name,
+	}
+}

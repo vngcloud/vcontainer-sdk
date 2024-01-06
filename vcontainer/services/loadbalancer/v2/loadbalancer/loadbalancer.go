@@ -60,3 +60,17 @@ func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder)
 
 	return response.ToListLoadBalancerObjects(), nil
 }
+
+func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*obj.LoadBalancer, error) {
+	response := NewListResponse()
+	_, err := pSc.Get(listURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListLoadBalancerObjects(), nil
+}
