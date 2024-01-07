@@ -14,3 +14,8 @@ type IGetOptsBuilder interface {
 	GetProjectID() string
 	GetSecgroupUUID() string
 }
+
+type IListOptsBuilder interface {
+	GetProjectID() string
+	ToListQuery() (string, error)
+}

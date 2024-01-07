@@ -52,3 +52,17 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, e
 
 	return response.ToSecgroupObject(), nil
 }
+
+func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.Secgroup, error) {
+	response := NewListResponse()
+	_, err := pSc.Get(listURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListSecgroupObjects(), nil
+}

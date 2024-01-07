@@ -13,3 +13,8 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 func getURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
 	return pSc.ServiceURL(pOpts.GetProjectID(), "secgroups", pOpts.GetSecgroupUUID())
 }
+
+func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
+	query, _ := pOpts.ToListQuery()
+	return pSc.ServiceURL(pOpts.GetProjectID(), "secgroups") + query
+}

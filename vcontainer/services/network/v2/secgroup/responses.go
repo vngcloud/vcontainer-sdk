@@ -57,3 +57,38 @@ func (s *GetResponse) ToSecgroupObject() *objects.Secgroup {
 		Status:      s.Data.Status,
 	}
 }
+
+// *************************************************** ListResponse ****************************************************
+
+type ListResponse struct {
+	ListData []struct {
+		ID          string `json:"id"`
+		Name        string `json:"name"`
+		Description string `json:"description,omitempty"`
+		Status      string `json:"status"`
+		CreatedAt   string `json:"createdAt"`
+		IsSystem    bool   `json:"isSystem"`
+	} `json:"listData"`
+	Page      int `json:"page"`
+	PageSize  int `json:"pageSize"`
+	TotalPage int `json:"totalPage"`
+	TotalItem int `json:"totalItem"`
+}
+
+func (s *ListResponse) ToListSecgroupObjects() []*objects.Secgroup {
+	var secgroups []*objects.Secgroup
+	if s == nil || s.ListData == nil || len(s.ListData) == 0 {
+		return secgroups
+	}
+
+	for _, secgroup := range s.ListData {
+		secgroups = append(secgroups, &objects.Secgroup{
+			UUID:        secgroup.ID,
+			Name:        secgroup.Name,
+			Description: secgroup.Description,
+			Status:      secgroup.Status,
+		})
+	}
+
+	return secgroups
+}
