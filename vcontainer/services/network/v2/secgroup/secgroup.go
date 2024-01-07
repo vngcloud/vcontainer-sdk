@@ -28,3 +28,17 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 
 	return err
 }
+
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.Secgroup, error) {
+	response := NewGetResponse()
+	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
+		JSONResponse: response,
+		OkCodes:      []int{200},
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToSecgroupObject(), nil
+}

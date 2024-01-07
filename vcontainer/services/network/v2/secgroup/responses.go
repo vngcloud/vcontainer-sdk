@@ -31,3 +31,27 @@ func (s *CreateResponse) ToSecgroupObject() *obj.Secgroup {
 		Status:      s.Data.Status,
 	}
 }
+
+type GetResponse struct {
+	Data struct {
+		ID          string  `json:"id"`
+		Name        string  `json:"name"`
+		Description *string `json:"description"`
+		Status      string  `json:"status"`
+		CreatedAt   string  `json:"createdAt"`
+		IsSystem    bool    `json:"isSystem"`
+	} `json:"data"`
+}
+
+func (s *GetResponse) ToSecgroupObject() *obj.Secgroup {
+	if s == nil {
+		return nil
+	}
+
+	return &obj.Secgroup{
+		UUID:        s.Data.ID,
+		Name:        s.Data.Name,
+		Description: *s.Data.Description,
+		Status:      s.Data.Status,
+	}
+}

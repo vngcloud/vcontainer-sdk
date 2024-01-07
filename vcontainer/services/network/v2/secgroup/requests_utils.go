@@ -11,3 +11,10 @@ func NewDeleteOpts(pProjectID, pSecgroupUUID string) IDeleteOptsBuilder {
 	opts.SecgroupUUID = pSecgroupUUID
 	return opts
 }
+
+func NewGetOpts(pProjectID, pSecgroupUUID string) IGetOptsBuilder {
+	opts := new(GetOpts)
+	opts.ProjectID = pProjectID
+	opts.SecgroupUUID = pSecgroupUUID
+	return opts
+}
