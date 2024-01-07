@@ -1,11 +1,13 @@
 package listener
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/listener/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type ICreateResponse interface {
-	ToListenerObject() *obj.Listener
+	ToListenerObject() *objects.Listener
 }
 
 type IGetBasedLoadBalancerResponse interface {
-	ToListListenerObject() []*obj.Listener
+	ToListListenerObject() []*objects.Listener
 }
