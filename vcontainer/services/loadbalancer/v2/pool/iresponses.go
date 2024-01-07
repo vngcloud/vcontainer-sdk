@@ -1,11 +1,13 @@
 package pool
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/pool/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type ICreateResponse interface {
-	ToPoolObject() *obj.Pool
+	ToPoolObject() *objects.Pool
 }
 
 type IListPoolsBasedLoadBalancerResponse interface {
-	ToListPoolObjects() []*obj.Pool
+	ToListPoolObjects() []*objects.Pool
 }

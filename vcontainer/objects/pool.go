@@ -1,4 +1,4 @@
-package obj
+package objects
 
 type Pool struct {
 	UUID              string
