@@ -22,7 +22,7 @@ type GetBasedLoadBalancerResponse struct {
 	Data []struct {
 		UUID                            string   `json:"uuid"`
 		Name                            string   `json:"name"`
-		Description                     *string  `json:"description"`
+		Description                     string   `json:"description,omitempty"`
 		Protocol                        string   `json:"protocol"`
 		ProtocolPort                    int      `json:"protocolPort"`
 		ConnectionLimit                 int      `json:"connectionLimit"`
@@ -44,20 +44,20 @@ type GetBasedLoadBalancerResponse struct {
 }
 
 func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*obj.Listener {
-	listeners := make([]*obj.Listener, 0, len(s.Data))
-	for i := range s.Data {
-		listeners[i] = s.ToListenerObjectAt(i)
+	var listeners []*obj.Listener
+
+	if s == nil || s.Data == nil || len(s.Data) == 0 {
+		return listeners
+	}
+
+	for _, itemListener := range s.Data {
+		listeners = append(listeners, &obj.Listener{
+			ID:           itemListener.UUID,
+			Name:         itemListener.Name,
+			Protocol:     itemListener.Protocol,
+			ProtocolPort: itemListener.ProtocolPort,
+			Status:       itemListener.DisplayStatus,
+		})
 	}
 	return listeners
-}
-
-func (s *GetBasedLoadBalancerResponse) ToListenerObjectAt(i int) *obj.Listener {
-	item := s.Data[i]
-	return &obj.Listener{
-		ID:           item.UUID,
-		Status:       item.DisplayStatus,
-		Protocol:     item.Protocol,
-		ProtocolPort: item.ProtocolPort,
-		Name:         item.Name,
-	}
 }
