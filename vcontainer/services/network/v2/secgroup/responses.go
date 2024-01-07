@@ -1,6 +1,8 @@
 package secgroup
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/network/v2/secgroup/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type CreateResponse struct {
 	Data struct {
@@ -19,12 +21,12 @@ type CreateResponse struct {
 	} `json:"data"`
 }
 
-func (s *CreateResponse) ToSecgroupObject() *obj.Secgroup {
+func (s *CreateResponse) ToSecgroupObject() *objects.Secgroup {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.Secgroup{
+	return &objects.Secgroup{
 		UUID:        s.Data.UUID,
 		Name:        s.Data.SecgroupName,
 		Description: s.Data.Description,
@@ -43,12 +45,12 @@ type GetResponse struct {
 	} `json:"data"`
 }
 
-func (s *GetResponse) ToSecgroupObject() *obj.Secgroup {
+func (s *GetResponse) ToSecgroupObject() *objects.Secgroup {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.Secgroup{
+	return &objects.Secgroup{
 		UUID:        s.Data.ID,
 		Name:        s.Data.Name,
 		Description: *s.Data.Description,

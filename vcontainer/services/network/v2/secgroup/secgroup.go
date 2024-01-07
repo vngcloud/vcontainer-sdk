@@ -1,20 +1,30 @@
 package secgroup
 
 import (
+	"encoding/json"
 	"github.com/vngcloud/vcontainer-sdk/client"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/network/v2/secgroup/obj"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+	"strings"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Secgroup, error) {
+func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Secgroup, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
-	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
+	reqRes, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
 		JSONBody:     body,
 		JSONResponse: response,
 		OkCodes:      []int{201},
 	})
 
 	if err != nil {
+		result := make(map[string]interface{})
+		err2 := json.Unmarshal(reqRes.Bytes(), &result)
+		if err2 == nil {
+			if message, _ := result["message"].(string); strings.Contains(strings.ToLower(strings.TrimSpace(message)), "name of security group already exist") {
+				return nil, NewErrNameDuplicate("", "name is already used")
+			}
+		}
+
 		return nil, err
 	}
 
@@ -29,7 +39,7 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return err
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.Secgroup, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, error) {
 	response := NewGetResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,

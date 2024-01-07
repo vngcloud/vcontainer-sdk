@@ -1,11 +1,13 @@
 package secgroup
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/network/v2/secgroup/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type ICreateResponse interface {
-	ToSecgroupObject() *obj.Secgroup
+	ToSecgroupObject() *objects.Secgroup
 }
 
 type IGetResponse interface {
-	ToSecgroupObject() *obj.Secgroup
+	ToSecgroupObject() *objects.Secgroup
 }
