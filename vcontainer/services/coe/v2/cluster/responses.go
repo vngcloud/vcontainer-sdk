@@ -1,6 +1,9 @@
 package cluster
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/coe/v2/cluster/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/coe/v2/cluster/obj"
+)
 
 type GetResponse struct {
 	Data struct {
@@ -55,8 +58,45 @@ func (s *GetResponse) ToClusterObject() *obj.Cluster {
 	}
 
 	return &obj.Cluster{
-		ID:       s.Data.UUID,
-		VpcID:    s.Data.NetworkID,
-		SubnetID: s.Data.SubnetID,
+		ID:                          s.Data.UUID,
+		VpcID:                       s.Data.NetworkID,
+		SubnetID:                    s.Data.SubnetID,
+		MasterClusterSecGroupIDList: s.Data.MasterClusterSecGroupIDList,
+		MinionClusterSecGroupIDList: s.Data.MinionClusterSecGroupIDList,
 	}
+}
+
+// ****************************************** Update secgroup for the cluster ******************************************
+
+type UpdateSecgroupResponse struct {
+	Data []struct {
+		UUID         string  `json:"uuid"`
+		ClusterID    string  `json:"clusterId"`
+		SecGroupID   string  `json:"secGroupId"`
+		ProjectID    string  `json:"projectId"`
+		Master       bool    `json:"master"`
+		CreatedAt    string  `json:"createdAt"`
+		UpdatedAt    *string `json:"updatedAt,omitempty"`
+		SecgroupName *string `json:"secGroupName,omitempty"`
+	} `json:"data"`
+}
+
+func (s *UpdateSecgroupResponse) ToListClusterSecgroupRuleObjects() []*objects.ClusterSecgroupRule {
+	if s == nil {
+		return nil
+	}
+
+	result := make([]*objects.ClusterSecgroupRule, 0, len(s.Data))
+	for i := range s.Data {
+		rule := s.Data[i]
+		result[i] = &objects.ClusterSecgroupRule{
+			UUID:         rule.UUID,
+			ClusterID:    rule.ClusterID,
+			SecGroupID:   rule.SecGroupID,
+			Master:       rule.Master,
+			SecgroupName: *rule.SecgroupName,
+		}
+	}
+
+	return result
 }

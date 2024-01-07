@@ -6,3 +6,8 @@ func NewGetOpts(pProjectID, pClusterID string) IGetOptsBuilder {
 	opts.ClusterID = pClusterID
 	return opts
 }
+
+func NewUpdateSecgroupOpts(pProjectID string, pOpts *UpdateSecgroupOpts) IUpdateSecgroupOptsBuilder {
+	pOpts.ProjectID = pProjectID
+	return pOpts
+}
