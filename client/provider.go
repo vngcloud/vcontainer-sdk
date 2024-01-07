@@ -167,7 +167,7 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 		}
 	}
 
-	klog.Errorf("Request failed: %v and status code is %d", resp, resp.StatusCode)
+	klog.Errorf("Request failed: %+v and status code is %d", resp, resp.StatusCode)
 
 	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%+v", resp)))
 }
