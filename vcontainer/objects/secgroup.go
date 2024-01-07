@@ -1,4 +1,4 @@
-package obj
+package objects
 
 type Secgroup struct {
 	UUID        string

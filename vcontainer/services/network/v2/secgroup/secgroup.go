@@ -3,11 +3,11 @@ package secgroup
 import (
 	"encoding/json"
 	"github.com/vngcloud/vcontainer-sdk/client"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/network/v2/secgroup/obj"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 	"strings"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Secgroup, error) {
+func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Secgroup, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
 	reqRes, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
@@ -39,7 +39,7 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return err
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.Secgroup, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Secgroup, error) {
 	response := NewGetResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
