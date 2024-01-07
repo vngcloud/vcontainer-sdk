@@ -5,3 +5,7 @@ import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/network/v2/secgro
 type ICreateResponse interface {
 	ToSecgroupObject() *obj.Secgroup
 }
+
+type IGetResponse interface {
+	ToSecgroupObject() *obj.Secgroup
+}

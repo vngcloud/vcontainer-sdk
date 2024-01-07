@@ -9,3 +9,8 @@ type IDeleteOptsBuilder interface {
 	GetProjectID() string
 	GetSecgroupUUID() string
 }
+
+type IGetOptsBuilder interface {
+	GetProjectID() string
+	GetSecgroupUUID() string
+}

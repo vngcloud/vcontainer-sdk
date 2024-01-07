@@ -9,3 +9,7 @@ func createURL(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) string {
 func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 	return pSc.ServiceURL(pOpts.GetProjectID(), "secgroups", pOpts.GetSecgroupUUID())
 }
+
+func getURL(pSc *client.ServiceClient, pOpts IGetOptsBuilder) string {
+	return pSc.ServiceURL(pOpts.GetProjectID(), "secgroups", pOpts.GetSecgroupUUID())
+}

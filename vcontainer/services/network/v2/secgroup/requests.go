@@ -19,3 +19,10 @@ type DeleteOpts struct {
 	lSecgroupCommonV2.SecgroupV2Common
 	common.CommonOpts
 }
+
+// ****************************************************** GetOpts ******************************************************
+
+type GetOpts struct {
+	common.CommonOpts
+	lSecgroupCommonV2.SecgroupV2Common
+}
