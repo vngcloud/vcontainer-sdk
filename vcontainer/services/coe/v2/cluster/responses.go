@@ -58,9 +58,11 @@ func (s *GetResponse) ToClusterObject() *obj.Cluster {
 	}
 
 	return &obj.Cluster{
-		ID:       s.Data.UUID,
-		VpcID:    s.Data.NetworkID,
-		SubnetID: s.Data.SubnetID,
+		ID:                          s.Data.UUID,
+		VpcID:                       s.Data.NetworkID,
+		SubnetID:                    s.Data.SubnetID,
+		MasterClusterSecGroupIDList: s.Data.MasterClusterSecGroupIDList,
+		MinionClusterSecGroupIDList: s.Data.MinionClusterSecGroupIDList,
 	}
 }
 
