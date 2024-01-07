@@ -8,5 +8,4 @@ type ICreateResponse interface {
 
 type IGetBasedLoadBalancerResponse interface {
 	ToListListenerObject() []*obj.Listener
-	ToListenerObjectAt(i int) *obj.Listener
 }
