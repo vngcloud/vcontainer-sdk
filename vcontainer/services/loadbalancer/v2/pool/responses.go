@@ -32,6 +32,11 @@ type ListPoolsBasedLoadBalancerResponse struct {
 
 func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*obj.Pool {
 	var pools []*obj.Pool
+
+	if s == nil || s.Data == nil || len(s.Data) == 0 {
+		return pools
+	}
+
 	for _, item := range s.Data {
 		pools = append(pools, &obj.Pool{
 			UUID:              item.UUID,
