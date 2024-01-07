@@ -16,17 +16,17 @@ func (p *CreateResponse) ToPoolObject() *obj.Pool {
 
 type ListPoolsBasedLoadBalancerResponse struct {
 	Data []struct {
-		UUID              string  `json:"uuid"`
-		Name              string  `json:"name"`
-		Protocol          string  `json:"protocol"`
-		Description       *string `json:"description"`
-		LoadBalanceMethod string  `json:"loadBalanceMethod"`
-		DisplayStatus     string  `json:"displayStatus"`
-		CreatedAt         string  `json:"createdAt"`
-		UpdatedAt         string  `json:"updatedAt"`
-		Stickiness        bool    `json:"stickiness"`
-		TLSEncryption     bool    `json:"tlsEncryption"`
-		ProgressStatus    string  `json:"progressStatus"`
+		UUID              string `json:"uuid"`
+		Name              string `json:"name"`
+		Protocol          string `json:"protocol"`
+		Description       string `json:"description,omitempty"`
+		LoadBalanceMethod string `json:"loadBalanceMethod"`
+		DisplayStatus     string `json:"displayStatus"`
+		CreatedAt         string `json:"createdAt"`
+		UpdatedAt         string `json:"updatedAt"`
+		Stickiness        bool   `json:"stickiness"`
+		TLSEncryption     bool   `json:"tlsEncryption"`
+		ProgressStatus    string `json:"progressStatus"`
 	} `json:"data"`
 }
 
@@ -42,7 +42,7 @@ func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*obj.Pool {
 			UUID:              item.UUID,
 			Name:              item.Name,
 			Protocol:          item.Protocol,
-			Description:       *item.Description,
+			Description:       item.Description,
 			LoadBalanceMethod: item.LoadBalanceMethod,
 			Status:            item.DisplayStatus,
 			Stickiness:        item.Stickiness,
