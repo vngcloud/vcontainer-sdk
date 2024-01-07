@@ -3,6 +3,7 @@ package cluster
 import (
 	"encoding/json"
 	"github.com/vngcloud/vcontainer-sdk/client"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/coe/v2/cluster/obj"
 	"strings"
 )
@@ -27,4 +28,18 @@ func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.Cluster, error)
 	}
 
 	return response.ToClusterObject(), nil
+}
+
+func UpdateSecgroup(pSc *client.ServiceClient, pOpts IUpdateSecgroupOptsBuilder) ([]*objects.ClusterSecgroupRule, error) {
+	response := NewUpdateSecgroupResponse()
+	_, err := pSc.Put(updateSecgroupURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes:      []int{200},
+		JSONResponse: response,
+	})
+
+	if err != nil {
+		return nil, err
+	}
+
+	return response.ToListClusterSecgroupRuleObjects(), nil
 }
