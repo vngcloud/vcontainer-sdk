@@ -30,24 +30,19 @@ type ListPoolsBasedLoadBalancerResponse struct {
 	} `json:"data"`
 }
 
-func (s *ListPoolsBasedLoadBalancerResponse) ToPoolObjectAt(i int) *obj.Pool {
-	item := s.Data[i]
-	return &obj.Pool{
-		UUID:              item.UUID,
-		Name:              item.Name,
-		Protocol:          item.Protocol,
-		Description:       *item.Description,
-		LoadBalanceMethod: item.LoadBalanceMethod,
-		Status:            item.DisplayStatus,
-		Stickiness:        item.Stickiness,
-		TLSEncryption:     item.TLSEncryption,
-	}
-}
-
 func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*obj.Pool {
-	pools := make([]*obj.Pool, 0, len(s.Data))
-	for i := range s.Data {
-		pools[i] = s.ToPoolObjectAt(i)
+	var pools []*obj.Pool
+	for _, item := range s.Data {
+		pools = append(pools, &obj.Pool{
+			UUID:              item.UUID,
+			Name:              item.Name,
+			Protocol:          item.Protocol,
+			Description:       *item.Description,
+			LoadBalanceMethod: item.LoadBalanceMethod,
+			Status:            item.DisplayStatus,
+			Stickiness:        item.Stickiness,
+			TLSEncryption:     item.TLSEncryption,
+		})
 	}
 	return pools
 }
