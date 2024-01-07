@@ -56,9 +56,11 @@ func (s *GetResponse) ToLoadBalancerObject() *obj.LoadBalancer {
 	}
 
 	return &obj.LoadBalancer{
-		UUID:    s.Data.UUID,
-		Status:  s.Data.DisplayStatus,
-		Address: s.Data.Address,
+		UUID:     s.Data.UUID,
+		Status:   s.Data.DisplayStatus,
+		Address:  s.Data.Address,
+		Name:     s.Data.Name,
+		SubnetID: s.Data.PrivateSubnetID,
 	}
 }
 
@@ -87,10 +89,11 @@ func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
 	}
 
 	return &obj.LoadBalancer{
-		UUID:    s.Data[i].UUID,
-		Status:  s.Data[i].DisplayStatus,
-		Address: s.Data[i].Address,
-		Name:    s.Data[i].Name,
+		UUID:     s.Data[i].UUID,
+		Status:   s.Data[i].DisplayStatus,
+		Address:  s.Data[i].Address,
+		Name:     s.Data[i].Name,
+		SubnetID: s.Data[i].PrivateSubnetID,
 	}
 }
 
@@ -123,9 +126,10 @@ func (s *ListResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer {
 	}
 
 	return &obj.LoadBalancer{
-		UUID:    s.ListData[i].UUID,
-		Status:  s.ListData[i].DisplayStatus,
-		Address: s.ListData[i].Address,
-		Name:    s.ListData[i].Name,
+		UUID:     s.ListData[i].UUID,
+		Status:   s.ListData[i].DisplayStatus,
+		Address:  s.ListData[i].Address,
+		Name:     s.ListData[i].Name,
+		SubnetID: s.ListData[i].PrivateSubnetID,
 	}
 }
