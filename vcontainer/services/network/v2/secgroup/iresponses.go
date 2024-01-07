@@ -11,3 +11,7 @@ type ICreateResponse interface {
 type IGetResponse interface {
 	ToSecgroupObject() *objects.Secgroup
 }
+
+type IListResponse interface {
+	ToListSecgroupObjects() []*objects.Secgroup
+}

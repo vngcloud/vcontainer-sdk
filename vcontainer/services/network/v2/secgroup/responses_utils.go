@@ -7,3 +7,7 @@ func NewCreateResponse() ICreateResponse {
 func NewGetResponse() IGetResponse {
 	return &GetResponse{}
 }
+
+func NewListResponse() IListResponse {
+	return &ListResponse{}
+}

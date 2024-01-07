@@ -18,3 +18,10 @@ func NewGetOpts(pProjectID, pSecgroupUUID string) IGetOptsBuilder {
 	opts.SecgroupUUID = pSecgroupUUID
 	return opts
 }
+
+func NewListOpts(pProjectID, pName string) IListOptsBuilder {
+	opts := new(ListOpts)
+	opts.ProjectID = pProjectID
+	opts.Name = pName
+	return opts
+}
