@@ -34,7 +34,7 @@ func listBySubnetIDURL(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuild
 }
 
 func listURL(pSc *client.ServiceClient, pOpts IListOptsBuilder) string {
-	size := int(^uint(0) >> 1)
+	size := 999999
 	return pSc.ServiceURL(
 		pOpts.GetProjectID(),
 		fmt.Sprintf("loadBalancers?name=&page=1&size=%d", size))
