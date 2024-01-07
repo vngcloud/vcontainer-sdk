@@ -1,17 +1,19 @@
 package listener
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/listener/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type CreateResponse struct {
 	UUID string `json:"uuid"`
 }
 
-func (s *CreateResponse) ToListenerObject() *obj.Listener {
+func (s *CreateResponse) ToListenerObject() *objects.Listener {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.Listener{
+	return &objects.Listener{
 		ID: s.UUID,
 	}
 }
@@ -43,20 +45,21 @@ type GetBasedLoadBalancerResponse struct {
 	} `json:"data"`
 }
 
-func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*obj.Listener {
-	var listeners []*obj.Listener
+func (s *GetBasedLoadBalancerResponse) ToListListenerObject() []*objects.Listener {
+	var listeners []*objects.Listener
 
 	if s == nil || s.Data == nil || len(s.Data) == 0 {
 		return listeners
 	}
 
 	for _, itemListener := range s.Data {
-		listeners = append(listeners, &obj.Listener{
-			ID:           itemListener.UUID,
-			Name:         itemListener.Name,
-			Protocol:     itemListener.Protocol,
-			ProtocolPort: itemListener.ProtocolPort,
-			Status:       itemListener.DisplayStatus,
+		listeners = append(listeners, &objects.Listener{
+			ID:              itemListener.UUID,
+			Name:            itemListener.Name,
+			Protocol:        itemListener.Protocol,
+			ProtocolPort:    itemListener.ProtocolPort,
+			Status:          itemListener.DisplayStatus,
+			DefaultPoolUUID: itemListener.DefaultPoolId,
 		})
 	}
 	return listeners

@@ -2,10 +2,10 @@ package listener
 
 import (
 	"github.com/vngcloud/vcontainer-sdk/client"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/listener/obj"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Listener, error) {
+func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.Listener, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
 	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
@@ -21,7 +21,7 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.Listener,
 	return response.ToListenerObject(), nil
 }
 
-func GetBasedLoadBalancer(pSc *client.ServiceClient, pOpts IGetBasedLoadBalancerOptsBuilder) ([]*obj.Listener, error) {
+func GetBasedLoadBalancer(pSc *client.ServiceClient, pOpts IGetBasedLoadBalancerOptsBuilder) ([]*objects.Listener, error) {
 	response := NewGetBasedLoadBalancerResponse()
 	_, err := pSc.Get(getBasedLoadBalancerURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
