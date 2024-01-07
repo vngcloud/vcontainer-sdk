@@ -1,13 +1,15 @@
 package pool
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/pool/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 type CreateResponse struct {
 	UUID string `json:"uuid"`
 }
 
-func (p *CreateResponse) ToPoolObject() *obj.Pool {
-	return &obj.Pool{
+func (p *CreateResponse) ToPoolObject() *objects.Pool {
+	return &objects.Pool{
 		UUID: p.UUID,
 	}
 }
@@ -30,15 +32,15 @@ type ListPoolsBasedLoadBalancerResponse struct {
 	} `json:"data"`
 }
 
-func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*obj.Pool {
-	var pools []*obj.Pool
+func (s *ListPoolsBasedLoadBalancerResponse) ToListPoolObjects() []*objects.Pool {
+	var pools []*objects.Pool
 
 	if s == nil || s.Data == nil || len(s.Data) == 0 {
 		return pools
 	}
 
 	for _, item := range s.Data {
-		pools = append(pools, &obj.Pool{
+		pools = append(pools, &objects.Pool{
 			UUID:              item.UUID,
 			Name:              item.Name,
 			Protocol:          item.Protocol,
