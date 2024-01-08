@@ -3,7 +3,6 @@ package client
 import (
 	"context"
 	"fmt"
-	"k8s.io/klog/v2"
 	"net/http"
 	"strings"
 	"sync"
@@ -166,8 +165,6 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 			return resp, nil
 		}
 	}
-
-	klog.Errorf("Request failed: %+v and status code is %d", resp, resp.StatusCode)
 
 	return resp, utils.NewErrUnknown(strings.TrimSpace(fmt.Sprintf("%+v", resp)))
 }

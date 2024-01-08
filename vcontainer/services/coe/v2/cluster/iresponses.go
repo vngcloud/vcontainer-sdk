@@ -14,5 +14,5 @@ type IGetResponse interface {
 // *************************************** Response of Update Secgroup rule API ****************************************
 
 type IUpdateSecgroupResponse interface {
-	ToListClusterSecgroupRuleObjects() []*objects.ClusterSecgroupRule
+	ToListClusterSecgroupRuleObjects() []*objects.ClusterSecgroup
 }

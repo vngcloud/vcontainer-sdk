@@ -1,6 +1,6 @@
 package objects
 
-type ClusterSecgroupRule struct {
+type ClusterSecgroup struct {
 	UUID         string
 	ClusterID    string
 	SecGroupID   string
