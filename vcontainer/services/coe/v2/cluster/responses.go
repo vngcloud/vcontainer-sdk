@@ -70,32 +70,31 @@ func (s *GetResponse) ToClusterObject() *obj.Cluster {
 
 type UpdateSecgroupResponse struct {
 	Data []struct {
-		UUID         string  `json:"uuid"`
-		ClusterID    string  `json:"clusterId"`
-		SecGroupID   string  `json:"secGroupId"`
-		ProjectID    string  `json:"projectId"`
-		Master       bool    `json:"master"`
-		CreatedAt    string  `json:"createdAt"`
-		UpdatedAt    *string `json:"updatedAt,omitempty"`
-		SecgroupName *string `json:"secGroupName,omitempty"`
+		UUID         string `json:"uuid"`
+		ClusterID    string `json:"clusterId"`
+		SecGroupID   string `json:"secGroupId"`
+		ProjectID    string `json:"projectId"`
+		Master       bool   `json:"master"`
+		CreatedAt    string `json:"createdAt"`
+		UpdatedAt    string `json:"updatedAt,omitempty"`
+		SecgroupName string `json:"secGroupName,omitempty"`
 	} `json:"data"`
 }
 
-func (s *UpdateSecgroupResponse) ToListClusterSecgroupRuleObjects() []*objects.ClusterSecgroupRule {
-	if s == nil {
+func (s *UpdateSecgroupResponse) ToListClusterSecgroupObjects() []*objects.ClusterSecgroup {
+	if s == nil || s.Data == nil || len(s.Data) < 1 {
 		return nil
 	}
 
-	result := make([]*objects.ClusterSecgroupRule, 0, len(s.Data))
-	for i := range s.Data {
-		rule := s.Data[i]
-		result[i] = &objects.ClusterSecgroupRule{
-			UUID:         rule.UUID,
-			ClusterID:    rule.ClusterID,
-			SecGroupID:   rule.SecGroupID,
-			Master:       rule.Master,
-			SecgroupName: *rule.SecgroupName,
-		}
+	var result []*objects.ClusterSecgroup
+	for _, secgroup := range s.Data {
+		result = append(result, &objects.ClusterSecgroup{
+			UUID:         secgroup.UUID,
+			ClusterID:    secgroup.ClusterID,
+			SecGroupID:   secgroup.SecGroupID,
+			Master:       secgroup.Master,
+			SecgroupName: secgroup.SecgroupName,
+		})
 	}
 
 	return result
