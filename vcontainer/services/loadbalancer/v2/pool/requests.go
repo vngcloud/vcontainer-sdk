@@ -8,8 +8,9 @@ import (
 // **************************************************** CreateOpts *****************************************************
 
 type (
-	CreateOptsAlgorithmOpt string
-	CreateOptsProtocolOpt  string
+	CreateOptsAlgorithmOpt           string
+	CreateOptsProtocolOpt            string
+	CreateOptsHealthCheckProtocolOpt string
 )
 
 const (
@@ -21,6 +22,10 @@ const (
 	CreateOptsProtocolOptUDP   CreateOptsProtocolOpt = "UDP"
 	CreateOptsProtocolOptHTTP  CreateOptsProtocolOpt = "HTTP"
 	CreateOptsProtocolOptProxy CreateOptsProtocolOpt = "PROXY"
+
+	CreateOptsHealthCheckProtocolOptTCP   CreateOptsHealthCheckProtocolOpt = "TCP"
+	CreateOptsHealthCheckProtocolOptHTTP  CreateOptsHealthCheckProtocolOpt = "HTTP"
+	CreateOptsHealthCheckProtocolOptHTTPs CreateOptsHealthCheckProtocolOpt = "HTTPS"
 )
 
 type (
@@ -45,11 +50,11 @@ type (
 	}
 
 	HealthMonitor struct {
-		HealthCheckProtocol string `json:"healthCheckProtocol"`
-		HealthyThreshold    int    `json:"healthyThreshold"`
-		Interval            int    `json:"interval"`
-		Timeout             int    `json:"timeout"`
-		UnhealthyThreshold  int    `json:"unhealthyThreshold"`
+		HealthCheckProtocol CreateOptsHealthCheckProtocolOpt `json:"healthCheckProtocol"`
+		HealthyThreshold    int                              `json:"healthyThreshold"`
+		Interval            int                              `json:"interval"`
+		Timeout             int                              `json:"timeout"`
+		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
 	}
 )
 
