@@ -1,6 +1,8 @@
 package loadbalancer
 
 import (
+	lStr "strings"
+
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 )
 
@@ -57,12 +59,14 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 		return nil
 	}
 
+	internal := lStr.ToUpper(lStr.TrimSpace(s.Data.LoadBalancerSchema)) == "INTERNAL"
 	return &objects.LoadBalancer{
 		UUID:     s.Data.UUID,
 		Status:   s.Data.DisplayStatus,
 		Address:  s.Data.Address,
 		Name:     s.Data.Name,
 		SubnetID: s.Data.PrivateSubnetID,
+		Internal: internal,
 	}
 }
 
