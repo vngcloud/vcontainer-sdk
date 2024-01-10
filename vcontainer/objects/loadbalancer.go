@@ -6,4 +6,5 @@ type LoadBalancer struct {
 	Address  string
 	Name     string
 	SubnetID string
+	Internal bool
 }
