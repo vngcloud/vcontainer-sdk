@@ -2,10 +2,10 @@ package loadbalancer
 
 import (
 	"github.com/vngcloud/vcontainer-sdk/client"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/loadbalancer/obj"
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 )
 
-func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.LoadBalancer, error) {
+func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*objects.LoadBalancer, error) {
 	response := NewCreateResponse()
 	body := pOpts.ToRequestBody()
 	_, err := pSc.Post(createURL(pSc, pOpts), &client.RequestOpts{
@@ -21,7 +21,7 @@ func Create(pSc *client.ServiceClient, pOpts ICreateOptsBuilder) (*obj.LoadBalan
 	return response.ToLoadBalancerObject(), nil
 }
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.LoadBalancer, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.LoadBalancer, error) {
 	response := NewGetResponse()
 	_, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
@@ -47,7 +47,7 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 	return nil
 }
 
-func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*obj.LoadBalancer, error) {
+func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*objects.LoadBalancer, error) {
 	response := NewListBySubnetIDResponse()
 	_, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,
@@ -61,7 +61,7 @@ func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder)
 	return response.ToListLoadBalancerObjects(), nil
 }
 
-func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*obj.LoadBalancer, error) {
+func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBalancer, error) {
 	response := NewListResponse()
 	_, err := pSc.Get(listURL(pSc, pOpts), &client.RequestOpts{
 		JSONResponse: response,

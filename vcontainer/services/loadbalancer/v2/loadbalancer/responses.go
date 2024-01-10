@@ -1,6 +1,8 @@
 package loadbalancer
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/loadbalancer/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 // ******************************************************* MISC ********************************************************
 
@@ -34,12 +36,12 @@ type CreateResponse struct {
 	UUID string `json:"uuid"`
 }
 
-func (s *CreateResponse) ToLoadBalancerObject() *obj.LoadBalancer {
+func (s *CreateResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.LoadBalancer{
+	return &objects.LoadBalancer{
 		UUID: s.UUID,
 	}
 }
@@ -50,12 +52,12 @@ type GetResponse struct {
 	Data ResponseData `json:"data"`
 }
 
-func (s *GetResponse) ToLoadBalancerObject() *obj.LoadBalancer {
+func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.LoadBalancer{
+	return &objects.LoadBalancer{
 		UUID:     s.Data.UUID,
 		Status:   s.Data.DisplayStatus,
 		Address:  s.Data.Address,
@@ -70,12 +72,12 @@ type ListBySubnetIDResponse struct {
 	Data []ResponseData `json:"data"`
 }
 
-func (s *ListBySubnetIDResponse) ToListLoadBalancerObjects() []*obj.LoadBalancer {
+func (s *ListBySubnetIDResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	result := make([]*obj.LoadBalancer, len(s.Data))
+	result := make([]*objects.LoadBalancer, len(s.Data))
 	for i := range s.Data {
 		result[i] = s.ToLoadBalancerObjectAt(i)
 	}
@@ -83,12 +85,12 @@ func (s *ListBySubnetIDResponse) ToListLoadBalancerObjects() []*obj.LoadBalancer
 	return result
 }
 
-func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer {
+func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.LoadBalancer{
+	return &objects.LoadBalancer{
 		UUID:     s.Data[i].UUID,
 		Status:   s.Data[i].DisplayStatus,
 		Address:  s.Data[i].Address,
@@ -107,12 +109,12 @@ type ListResponse struct {
 	TotalItem int            `json:"totalItem"`
 }
 
-func (s *ListResponse) ToListLoadBalancerObjects() []*obj.LoadBalancer {
+func (s *ListResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	result := make([]*obj.LoadBalancer, len(s.ListData))
+	result := make([]*objects.LoadBalancer, len(s.ListData))
 	for i := range s.ListData {
 		result[i] = s.ToLoadBalancerObjectAt(i)
 	}
@@ -120,12 +122,12 @@ func (s *ListResponse) ToListLoadBalancerObjects() []*obj.LoadBalancer {
 	return result
 }
 
-func (s *ListResponse) ToLoadBalancerObjectAt(i int) *obj.LoadBalancer {
+func (s *ListResponse) ToLoadBalancerObjectAt(i int) *objects.LoadBalancer {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.LoadBalancer{
+	return &objects.LoadBalancer{
 		UUID:     s.ListData[i].UUID,
 		Status:   s.ListData[i].DisplayStatus,
 		Address:  s.ListData[i].Address,

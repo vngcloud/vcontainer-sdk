@@ -1,29 +1,31 @@
 package loadbalancer
 
-import "github.com/vngcloud/vcontainer-sdk/vcontainer/services/loadbalancer/v2/loadbalancer/obj"
+import (
+	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
+)
 
 // ***************************************** Response of CreateLoadBalancer API ****************************************
 
 type ICreateResponse interface {
-	ToLoadBalancerObject() *obj.LoadBalancer
+	ToLoadBalancerObject() *objects.LoadBalancer
 }
 
 // ****************************************** Response of GetLoadBalancer API ******************************************
 
 type IGetResponse interface {
-	ToLoadBalancerObject() *obj.LoadBalancer
+	ToLoadBalancerObject() *objects.LoadBalancer
 }
 
 // ****************************************** Response of ListBySubnetID API *******************************************
 
 type IListBySubnetIDResponse interface {
-	ToListLoadBalancerObjects() []*obj.LoadBalancer
-	ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
+	ToListLoadBalancerObjects() []*objects.LoadBalancer
+	ToLoadBalancerObjectAt(i int) *objects.LoadBalancer
 }
 
 // *********************************************** Response if List API ************************************************
 
 type IListResponse interface {
-	ToListLoadBalancerObjects() []*obj.LoadBalancer
-	ToLoadBalancerObjectAt(i int) *obj.LoadBalancer
+	ToListLoadBalancerObjects() []*objects.LoadBalancer
+	ToLoadBalancerObjectAt(i int) *objects.LoadBalancer
 }
