@@ -23,9 +23,10 @@ const (
 	CreateOptsProtocolOptHTTP  CreateOptsProtocolOpt = "HTTP"
 	CreateOptsProtocolOptProxy CreateOptsProtocolOpt = "PROXY"
 
-	CreateOptsHealthCheckProtocolOptTCP   CreateOptsHealthCheckProtocolOpt = "TCP"
-	CreateOptsHealthCheckProtocolOptHTTP  CreateOptsHealthCheckProtocolOpt = "HTTP"
-	CreateOptsHealthCheckProtocolOptHTTPs CreateOptsHealthCheckProtocolOpt = "HTTPS"
+	CreateOptsHealthCheckProtocolOptTCP     CreateOptsHealthCheckProtocolOpt = "TCP"
+	CreateOptsHealthCheckProtocolOptHTTP    CreateOptsHealthCheckProtocolOpt = "HTTP"
+	CreateOptsHealthCheckProtocolOptHTTPs   CreateOptsHealthCheckProtocolOpt = "HTTPS"
+	CreateOptsHealthCheckProtocolOptPINGUDP CreateOptsHealthCheckProtocolOpt = "PING-UDP"
 )
 
 type (
@@ -51,14 +52,20 @@ type (
 
 	HealthMonitor struct {
 		HealthCheckProtocol CreateOptsHealthCheckProtocolOpt `json:"healthCheckProtocol"`
+		HealthCheckPath     string                           `json:"healthCheckPath,omitempty"`
 		HealthyThreshold    int                              `json:"healthyThreshold"`
+		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
 		Interval            int                              `json:"interval"`
 		Timeout             int                              `json:"timeout"`
-		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
 	}
 )
 
 func (s *CreateOpts) ToRequestBody() interface{} {
+	// If health check protocol is TCP, health check path must be empty
+	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptTCP {
+		s.HealthMonitor.HealthCheckPath = ""
+	}
+
 	return s
 }
 

@@ -1,4 +1,4 @@
-package obj
+package objects
 
 type LoadBalancer struct {
 	UUID     string
