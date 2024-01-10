@@ -69,34 +69,41 @@ func (s *GetResponse) ToLoadBalancerObject() *objects.LoadBalancer {
 // ******************************************* Response of ListBySubnetID API ******************************************
 
 type ListBySubnetIDResponse struct {
-	Data []ResponseData `json:"data"`
+	Data []struct {
+		Address            string `json:"address"`
+		CreatedAt          string `json:"createdAt"`
+		Description        string `json:"description"`
+		DisplayStatus      string `json:"displayStatus"`
+		DisplayType        string `json:"displayType"`
+		LoadBalancerSchema string `json:"loadBalancerSchema"`
+		Name               string `json:"name"`
+		PackageId          string `json:"packageId"`
+		PrivateSubnetCidr  string `json:"privateSubnetCidr"`
+		PrivateSubnetId    string `json:"privateSubnetId"`
+		ProgressStatus     string `json:"progressStatus"`
+		Type               string `json:"type"`
+		UUID               string `json:"uuid"`
+		UpdatedAt          string `json:"updatedAt"`
+	}
 }
 
 func (s *ListBySubnetIDResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
-	if s == nil {
+	if s == nil || s.Data == nil || len(s.Data) < 1 {
 		return nil
 	}
 
-	result := make([]*objects.LoadBalancer, len(s.Data))
-	for i := range s.Data {
-		result[i] = s.ToLoadBalancerObjectAt(i)
+	var result []*objects.LoadBalancer
+	for _, itemLb := range s.Data {
+		result = append(result, &objects.LoadBalancer{
+			UUID:     itemLb.UUID,
+			Status:   itemLb.DisplayStatus,
+			Address:  itemLb.Address,
+			Name:     itemLb.Name,
+			SubnetID: itemLb.PrivateSubnetId,
+		})
 	}
 
 	return result
-}
-
-func (s *ListBySubnetIDResponse) ToLoadBalancerObjectAt(i int) *objects.LoadBalancer {
-	if s == nil {
-		return nil
-	}
-
-	return &objects.LoadBalancer{
-		UUID:     s.Data[i].UUID,
-		Status:   s.Data[i].DisplayStatus,
-		Address:  s.Data[i].Address,
-		Name:     s.Data[i].Name,
-		SubnetID: s.Data[i].PrivateSubnetID,
-	}
 }
 
 // *********************************************** Response of List API ************************************************

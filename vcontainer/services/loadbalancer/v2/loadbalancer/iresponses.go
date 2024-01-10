@@ -20,7 +20,6 @@ type IGetResponse interface {
 
 type IListBySubnetIDResponse interface {
 	ToListLoadBalancerObjects() []*objects.LoadBalancer
-	ToLoadBalancerObjectAt(i int) *objects.LoadBalancer
 }
 
 // *********************************************** Response if List API ************************************************
