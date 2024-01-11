@@ -67,6 +67,9 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 	// If health check protocol is TCP, health check path must be empty
 	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptTCP {
 		s.HealthMonitor.HealthCheckPath = ""
+		s.HealthMonitor.DomainName = ""
+		s.HealthMonitor.HttpVersion = ""
+		s.HealthMonitor.SuccessCode = ""
 	}
 
 	return s
