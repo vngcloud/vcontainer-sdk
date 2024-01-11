@@ -26,5 +26,4 @@ type IListBySubnetIDResponse interface {
 
 type IListResponse interface {
 	ToListLoadBalancerObjects() []*objects.LoadBalancer
-	ToLoadBalancerObjectAt(i int) *objects.LoadBalancer
 }

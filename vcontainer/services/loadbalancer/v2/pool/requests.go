@@ -57,6 +57,9 @@ type (
 		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
 		Interval            int                              `json:"interval"`
 		Timeout             int                              `json:"timeout"`
+		DomainName          string                           `json:"domainName,omitempty"`
+		HttpVersion         string                           `json:"httpVersion,omitempty"`
+		SuccessCode         string                           `json:"successCode,omitempty"`
 	}
 )
 
