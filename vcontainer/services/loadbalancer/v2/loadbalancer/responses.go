@@ -121,28 +121,20 @@ type ListResponse struct {
 }
 
 func (s *ListResponse) ToListLoadBalancerObjects() []*objects.LoadBalancer {
-	if s == nil {
+	if s == nil || s.ListData == nil || len(s.ListData) < 1 {
 		return nil
 	}
 
-	result := make([]*objects.LoadBalancer, len(s.ListData))
-	for i := range s.ListData {
-		result[i] = s.ToLoadBalancerObjectAt(i)
+	var result []*objects.LoadBalancer
+	for _, itemLb := range s.ListData {
+		result = append(result, &objects.LoadBalancer{
+			UUID:     itemLb.UUID,
+			Status:   itemLb.DisplayStatus,
+			Address:  itemLb.Address,
+			Name:     itemLb.Name,
+			SubnetID: itemLb.PrivateSubnetID,
+		})
 	}
 
 	return result
-}
-
-func (s *ListResponse) ToLoadBalancerObjectAt(i int) *objects.LoadBalancer {
-	if s == nil {
-		return nil
-	}
-
-	return &objects.LoadBalancer{
-		UUID:     s.ListData[i].UUID,
-		Status:   s.ListData[i].DisplayStatus,
-		Address:  s.ListData[i].Address,
-		Name:     s.ListData[i].Name,
-		SubnetID: s.ListData[i].PrivateSubnetID,
-	}
 }
