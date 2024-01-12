@@ -56,3 +56,16 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 
 	return nil
 }
+
+func UpdatePoolMembers(pSc *client.ServiceClient, pOpts IUpdatePoolMembersOptsBuilder) error {
+	_, err := pSc.Put(updatePoolMembersURL(pSc, pOpts), &client.RequestOpts{
+		JSONBody: pOpts.ToRequestBody(),
+		OkCodes:  []int{202},
+	})
+
+	if err != nil {
+		return err
+	}
+
+	return nil
+}
