@@ -11,6 +11,7 @@ type (
 	CreateOptsAlgorithmOpt           string
 	CreateOptsProtocolOpt            string
 	CreateOptsHealthCheckProtocolOpt string
+	CreateOptsHealthCheckMethodOpt   string
 )
 
 const (
@@ -27,6 +28,10 @@ const (
 	CreateOptsHealthCheckProtocolOptHTTP    CreateOptsHealthCheckProtocolOpt = "HTTP"
 	CreateOptsHealthCheckProtocolOptHTTPs   CreateOptsHealthCheckProtocolOpt = "HTTPS"
 	CreateOptsHealthCheckProtocolOptPINGUDP CreateOptsHealthCheckProtocolOpt = "PING-UDP"
+
+	CreateOptsHealthCheckMethodOptGET  CreateOptsHealthCheckMethodOpt = "GET"
+	CreateOptsHealthCheckMethodOptPUT  CreateOptsHealthCheckMethodOpt = "PUT"
+	CreateOptsHealthCheckMethodOptPOST CreateOptsHealthCheckMethodOpt = "POST"
 )
 
 type (
@@ -52,24 +57,26 @@ type (
 
 	HealthMonitor struct {
 		HealthCheckProtocol CreateOptsHealthCheckProtocolOpt `json:"healthCheckProtocol"`
-		HealthCheckPath     string                           `json:"healthCheckPath,omitempty"`
 		HealthyThreshold    int                              `json:"healthyThreshold"`
 		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
 		Interval            int                              `json:"interval"`
 		Timeout             int                              `json:"timeout"`
-		DomainName          string                           `json:"domainName,omitempty"`
-		HttpVersion         string                           `json:"httpVersion,omitempty"`
-		SuccessCode         string                           `json:"successCode,omitempty"`
+		HealthCheckMethod   *CreateOptsHealthCheckMethodOpt  `json:"healthCheckMethod,omitempty"`
+		HealthCheckPath     *string                          `json:"healthCheckPath,omitempty"`
+		DomainName          *string                          `json:"domainName,omitempty"`
+		HttpVersion         *string                          `json:"httpVersion,omitempty"`
+		SuccessCode         *string                          `json:"successCode,omitempty"`
 	}
 )
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	// If health check protocol is TCP, health check path must be empty
-	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptTCP {
-		s.HealthMonitor.HealthCheckPath = ""
-		s.HealthMonitor.DomainName = ""
-		s.HealthMonitor.HttpVersion = ""
-		s.HealthMonitor.SuccessCode = ""
+	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptPINGUDP {
+		s.HealthMonitor.HealthCheckPath = nil
+		s.HealthMonitor.DomainName = nil
+		s.HealthMonitor.HttpVersion = nil
+		s.HealthMonitor.SuccessCode = nil
+		s.HealthMonitor.HealthCheckMethod = nil
 	}
 
 	return s
