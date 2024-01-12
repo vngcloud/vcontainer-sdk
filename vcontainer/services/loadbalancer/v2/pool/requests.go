@@ -96,3 +96,17 @@ type DeleteOpts struct {
 	lbCm.LoadBalancerV2Common
 	lbCm.PoolV2Common
 }
+
+// *********************************************** UpdatePoolMembersOpts ***********************************************
+
+type UpdatePoolMembersOpts struct {
+	Members []Member `json:"members"`
+
+	common.CommonOpts
+	lbCm.LoadBalancerV2Common
+	lbCm.PoolV2Common
+}
+
+func (s *UpdatePoolMembersOpts) ToRequestBody() interface{} {
+	return s
+}

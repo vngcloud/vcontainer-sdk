@@ -20,3 +20,10 @@ func NewDeleteOpts(pProjectID, pLbID, pPoolID string) IDeleteOptsBuilder {
 	opts.PoolID = pPoolID
 	return opts
 }
+
+func NewUpdatePoolMembersOpts(pProjectID, pLbID, pPoolID string, pOpts *UpdatePoolMembersOpts) IUpdatePoolMembersOptsBuilder {
+	pOpts.ProjectID = pProjectID
+	pOpts.LoadBalancerID = pLbID
+	pOpts.PoolID = pPoolID
+	return pOpts
+}

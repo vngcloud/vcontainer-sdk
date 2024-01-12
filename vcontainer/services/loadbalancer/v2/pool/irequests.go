@@ -16,3 +16,10 @@ type IDeleteOptsBuilder interface {
 	GetProjectID() string
 	GetPoolID() string
 }
+
+type IUpdatePoolMembersOptsBuilder interface {
+	GetLoadBalancerID() string
+	GetProjectID() string
+	GetPoolID() string
+	ToRequestBody() interface{}
+}

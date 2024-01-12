@@ -26,3 +26,13 @@ func deleteURL(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) string {
 		"pools",
 		pOpts.GetPoolID())
 }
+
+func updatePoolMembersURL(pSc *client.ServiceClient, pOpts IUpdatePoolMembersOptsBuilder) string {
+	return pSc.ServiceURL(
+		pOpts.GetProjectID(),
+		"loadBalancers",
+		pOpts.GetLoadBalancerID(),
+		"pools",
+		pOpts.GetPoolID(),
+		"members")
+}
