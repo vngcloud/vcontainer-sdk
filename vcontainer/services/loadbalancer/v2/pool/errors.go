@@ -70,6 +70,6 @@ type ErrPoolMemberUnchanged struct {
 }
 
 func (s *ErrPoolMemberUnchanged) Error() string {
-	s.DefaultError = "the members provided are identical to the existing members in the pool"
+	s.DefaultError = errPoolUnchangeIdentifiers
 	return s.ChoseErrString()
 }
