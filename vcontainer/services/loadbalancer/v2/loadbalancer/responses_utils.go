@@ -1,10 +1,10 @@
 package loadbalancer
 
-func NewCreateResponse() ICreateResponse {
+func NewCreateResponse() ICommonResponse {
 	return &CreateResponse{}
 }
 
-func NewGetResponse() IGetResponse {
+func NewGetResponse() ICommonResponse {
 	return &GetResponse{}
 }
 
