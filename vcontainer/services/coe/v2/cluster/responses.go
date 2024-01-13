@@ -2,7 +2,6 @@ package cluster
 
 import (
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/coe/v2/cluster/obj"
 )
 
 type GetResponse struct {
@@ -52,12 +51,12 @@ type GetResponse struct {
 	} `json:"data"`
 }
 
-func (s *GetResponse) ToClusterObject() *obj.Cluster {
+func (s *GetResponse) ToClusterObject() *objects.Cluster {
 	if s == nil {
 		return nil
 	}
 
-	return &obj.Cluster{
+	return &objects.Cluster{
 		ID:                          s.Data.UUID,
 		VpcID:                       s.Data.NetworkID,
 		SubnetID:                    s.Data.SubnetID,
