@@ -4,11 +4,10 @@ import (
 	"encoding/json"
 	"github.com/vngcloud/vcontainer-sdk/client"
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
-	"github.com/vngcloud/vcontainer-sdk/vcontainer/services/coe/v2/cluster/obj"
 	"strings"
 )
 
-func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*obj.Cluster, error) {
+func Get(pSc *client.ServiceClient, pOpts IGetOptsBuilder) (*objects.Cluster, error) {
 	response := NewGetResponse()
 	reqRes, err := pSc.Get(getURL(pSc, pOpts), &client.RequestOpts{
 		OkCodes:      []int{200},

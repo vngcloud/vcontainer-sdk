@@ -1,4 +1,4 @@
-package obj
+package objects
 
 type Cluster struct {
 	ID                          string
