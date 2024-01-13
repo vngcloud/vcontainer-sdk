@@ -8,8 +8,9 @@ func NewGetResponse() IGetResponse {
 	return &GetResponse{}
 }
 
-func NewListBySubnetIDResponse() IListBySubnetIDResponse {
-	return &ListBySubnetIDResponse{}
+func NewListBySubnetIDResponse() []*ListBySubnetIDResponse {
+	var response []*ListBySubnetIDResponse
+	return response
 }
 
 func NewListResponse() IListResponse {
