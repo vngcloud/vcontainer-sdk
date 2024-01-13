@@ -9,12 +9,20 @@ import (
 )
 
 func TestListBySubnetID(t *testing.T) {
-	clientID := ""
-	clientSecret := ""
-	projectID := "pro-xxxxxxxxx-6858-466f-bf05-df2b33faa360"
-	subnetID := "sub-xxxxxxxx-39fc-47c4-b40b-8df0ecb71045"
+	// Load file env
+	var (
+		clientID     string
+		clientSecret string
+		projectID    string
+		subnetID     string
+	)
+
+	clientID, clientSecret, projectID, subnetID = "", "", "", ""
+	// Override clientID, clientSecret, projectID, subnetID here
 
 	identityURL := "https://iamapis.vngcloud.vn/accounts-api/v2"
+	vLbURL := "https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2"
+
 	provider, _ := vcontainer.NewClient(identityURL)
 	vcontainer.Authenticate(provider, &oauth2.AuthOptions{
 		ClientID:     clientID,
@@ -25,7 +33,7 @@ func TestListBySubnetID(t *testing.T) {
 	})
 
 	vlb, _ := vcontainer.NewServiceClient(
-		"https://hcm-3.api.vngcloud.vn/vserver/vlb-gateway/v2",
+		vLbURL,
 		provider,
 		"vlb")
 
@@ -38,5 +46,5 @@ func TestListBySubnetID(t *testing.T) {
 		fmt.Printf("Error: %s\n", err.Error())
 	}
 
-	fmt.Printf("%v\n", resp)
+	fmt.Printf("LB: %s\n", resp[0].Name)
 }

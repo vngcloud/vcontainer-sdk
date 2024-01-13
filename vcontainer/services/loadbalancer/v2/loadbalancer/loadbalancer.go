@@ -1,6 +1,7 @@
 package loadbalancer
 
 import (
+	"encoding/json"
 	"github.com/vngcloud/vcontainer-sdk/client"
 	"github.com/vngcloud/vcontainer-sdk/vcontainer/objects"
 )
@@ -49,16 +50,33 @@ func Delete(pSc *client.ServiceClient, pOpts IDeleteOptsBuilder) error {
 
 func ListBySubnetID(pSc *client.ServiceClient, pOpts IListBySubnetIDOptsBuilder) ([]*objects.LoadBalancer, error) {
 	response := NewListBySubnetIDResponse()
-	_, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &client.RequestOpts{
-		JSONResponse: response,
-		OkCodes:      []int{200},
+	resp, err := pSc.Get(listBySubnetIDURL(pSc, pOpts), &client.RequestOpts{
+		OkCodes: []int{200},
 	})
 
 	if err != nil {
 		return nil, err
 	}
 
-	return response.ToListLoadBalancerObjects(), nil
+	if resp.StatusCode == 200 {
+		err = json.Unmarshal(resp.Bytes(), &response)
+		if err != nil {
+			return nil, err
+		}
+	}
+
+	var lstLbObjects []*objects.LoadBalancer
+	if response == nil || len(response) < 1 {
+		return lstLbObjects, nil
+	}
+
+	for _, itemLb := range response {
+		if itemLb != nil {
+			lstLbObjects = append(lstLbObjects, itemLb.ToLoadBalancerObject())
+		}
+	}
+
+	return lstLbObjects, nil
 }
 
 func List(pSc *client.ServiceClient, pOpts IListOptsBuilder) ([]*objects.LoadBalancer, error) {
