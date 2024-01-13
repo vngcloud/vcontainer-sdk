@@ -28,6 +28,7 @@ type (
 	RequestOpts struct {
 		JSONBody     interface{}
 		JSONResponse interface{}
+		JSONError    interface{}
 		OkCodes      []int
 		MoreHeaders  map[string]string
 		OmitHeaders  []string
@@ -127,6 +128,10 @@ func (s *ProviderClient) doRequest(pMethod, pUrl string, pOpts *RequestOpts) (*r
 
 	if pOpts.JSONResponse != nil {
 		request.SetSuccessResult(pOpts.JSONResponse)
+	}
+
+	if pOpts.JSONError != nil {
+		request.SetErrorResult(pOpts.JSONError)
 	}
 
 	var resp *req.Response
