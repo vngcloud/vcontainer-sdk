@@ -77,25 +77,26 @@ type (
 
 func (s *CreateOpts) ToRequestBody() interface{} {
 	// If health check protocol is TCP, health check path must be empty
-	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptPINGUDP {
+	switch s.HealthMonitor.HealthCheckProtocol {
+	case CreateOptsHealthCheckProtocolOptPINGUDP, CreateOptsHealthCheckProtocolOptTCP:
 		s.HealthMonitor.HealthCheckPath = nil
 		s.HealthMonitor.HttpVersion = nil
 		s.HealthMonitor.SuccessCode = nil
 		s.HealthMonitor.HealthCheckMethod = nil
-	}
+		s.HealthMonitor.DomainName = nil
 
-	if (s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptHTTP ||
-		s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptHTTPs) &&
-		s.HealthMonitor.HttpVersion != nil {
+	case CreateOptsHealthCheckProtocolOptHTTP, CreateOptsHealthCheckProtocolOptHTTPs:
+		if s.HealthMonitor.HttpVersion != nil {
+			switch opt := *s.HealthMonitor.HttpVersion; opt {
+			case CreateOptsHealthCheckHttpVersionOptHttp1:
+				s.HealthMonitor.DomainName = nil
+			case CreateOptsHealthCheckHttpVersionOptHttp1Minor1:
+				if s.HealthMonitor.DomainName == nil ||
+					(s.HealthMonitor.DomainName != nil && len(*s.HealthMonitor.DomainName) < 1) {
 
-		if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1 {
-			s.HealthMonitor.DomainName = nil
-		} else if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1Minor1 {
-			if s.HealthMonitor.DomainName == nil ||
-				(s.HealthMonitor.DomainName != nil && len(*s.HealthMonitor.DomainName) < 1) {
-
-				fakeDomainName := defaultFakeDomainName
-				s.HealthMonitor.DomainName = &fakeDomainName
+					fakeDomainName := defaultFakeDomainName
+					s.HealthMonitor.DomainName = &fakeDomainName
+				}
 			}
 		}
 	}
