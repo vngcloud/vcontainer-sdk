@@ -8,10 +8,11 @@ import (
 // **************************************************** CreateOpts *****************************************************
 
 type (
-	CreateOptsAlgorithmOpt           string
-	CreateOptsProtocolOpt            string
-	CreateOptsHealthCheckProtocolOpt string
-	CreateOptsHealthCheckMethodOpt   string
+	CreateOptsAlgorithmOpt              string
+	CreateOptsProtocolOpt               string
+	CreateOptsHealthCheckProtocolOpt    string
+	CreateOptsHealthCheckMethodOpt      string
+	CreateOptsHealthCheckHttpVersionOpt string
 )
 
 const (
@@ -32,6 +33,11 @@ const (
 	CreateOptsHealthCheckMethodOptGET  CreateOptsHealthCheckMethodOpt = "GET"
 	CreateOptsHealthCheckMethodOptPUT  CreateOptsHealthCheckMethodOpt = "PUT"
 	CreateOptsHealthCheckMethodOptPOST CreateOptsHealthCheckMethodOpt = "POST"
+
+	CreateOptsHealthCheckHttpVersionOptHttp1       CreateOptsHealthCheckHttpVersionOpt = "1.0"
+	CreateOptsHealthCheckHttpVersionOptHttp1Minor1 CreateOptsHealthCheckHttpVersionOpt = "1.1"
+
+	defaultFakeDomainName = "nip.io"
 )
 
 type (
@@ -56,16 +62,16 @@ type (
 	}
 
 	HealthMonitor struct {
-		HealthCheckProtocol CreateOptsHealthCheckProtocolOpt `json:"healthCheckProtocol"`
-		HealthyThreshold    int                              `json:"healthyThreshold"`
-		UnhealthyThreshold  int                              `json:"unhealthyThreshold"`
-		Interval            int                              `json:"interval"`
-		Timeout             int                              `json:"timeout"`
-		HealthCheckMethod   *CreateOptsHealthCheckMethodOpt  `json:"healthCheckMethod,omitempty"`
-		HealthCheckPath     *string                          `json:"healthCheckPath,omitempty"`
-		DomainName          *string                          `json:"domainName,omitempty"`
-		HttpVersion         *string                          `json:"httpVersion,omitempty"`
-		SuccessCode         *string                          `json:"successCode,omitempty"`
+		HealthCheckProtocol CreateOptsHealthCheckProtocolOpt     `json:"healthCheckProtocol"`
+		HealthyThreshold    int                                  `json:"healthyThreshold"`
+		UnhealthyThreshold  int                                  `json:"unhealthyThreshold"`
+		Interval            int                                  `json:"interval"`
+		Timeout             int                                  `json:"timeout"`
+		HealthCheckMethod   *CreateOptsHealthCheckMethodOpt      `json:"healthCheckMethod,omitempty"`
+		HttpVersion         *CreateOptsHealthCheckHttpVersionOpt `json:"httpVersion,omitempty"`
+		HealthCheckPath     *string                              `json:"healthCheckPath,omitempty"`
+		DomainName          *string                              `json:"domainName,omitempty"`
+		SuccessCode         *string                              `json:"successCode,omitempty"`
 	}
 )
 
@@ -73,10 +79,23 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 	// If health check protocol is TCP, health check path must be empty
 	if s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptPINGUDP {
 		s.HealthMonitor.HealthCheckPath = nil
-		s.HealthMonitor.DomainName = nil
 		s.HealthMonitor.HttpVersion = nil
 		s.HealthMonitor.SuccessCode = nil
 		s.HealthMonitor.HealthCheckMethod = nil
+	}
+
+	if (s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptHTTP ||
+		s.HealthMonitor.HealthCheckProtocol == CreateOptsHealthCheckProtocolOptHTTPs) &&
+		s.HealthMonitor.HttpVersion != nil {
+
+		if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1 {
+			s.HealthMonitor.DomainName = nil
+		} else if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1Minor1 {
+			if s.HealthMonitor.DomainName == nil {
+				fakeDomainName := defaultFakeDomainName
+				s.HealthMonitor.DomainName = &fakeDomainName
+			}
+		}
 	}
 
 	return s
