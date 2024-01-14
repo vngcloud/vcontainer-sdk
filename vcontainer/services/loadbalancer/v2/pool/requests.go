@@ -91,7 +91,9 @@ func (s *CreateOpts) ToRequestBody() interface{} {
 		if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1 {
 			s.HealthMonitor.DomainName = nil
 		} else if *s.HealthMonitor.HttpVersion == CreateOptsHealthCheckHttpVersionOptHttp1Minor1 {
-			if s.HealthMonitor.DomainName == nil {
+			if s.HealthMonitor.DomainName == nil ||
+				(s.HealthMonitor.DomainName != nil && len(*s.HealthMonitor.DomainName) < 1) {
+
 				fakeDomainName := defaultFakeDomainName
 				s.HealthMonitor.DomainName = &fakeDomainName
 			}
